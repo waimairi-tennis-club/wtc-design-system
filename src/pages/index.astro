@@ -1,8 +1,7 @@
 ---
 // Foundations: logos, colours, type, spacing and icons, all read from tokens/ and assets/.
-import { Font } from 'astro:assets';
+import Docs from '../layouts/Docs.astro';
 import { palettes, group } from '../lib/tokens';
-import '../../tokens/tokens.css';
 
 const logos = import.meta.glob<string>('../../assets/logos/*.svg', { eager: true, query: '?url', import: 'default' });
 const icons = import.meta.glob<string>('../../assets/icons/*.svg', { eager: true, query: '?url', import: 'default' });
@@ -30,27 +29,11 @@ const textSizes = group('Text sizes');
 const weights = group('Type').filter(t => t.name.startsWith('--weight'));
 const leading = group('Type').filter(t => t.name.startsWith('--leading'));
 ---
-<!doctype html>
-<html lang="en-NZ">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex" />
-    <title>WTC design system</title>
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <Font cssVariable="--font-barlow" preload />
-  </head>
-  <body>
-    <header class="hero">
-      <img src={logos['../../assets/logos/wtc-white-logo.svg']} alt="Waimairi Tennis Club" class="hero-logo" />
-      <h1>Design system</h1>
-      <p>Logos, colours, type, spacing and icons for everything the club makes. Every value on this page is read from <code>tokens/tokens.css</code>, so it's always up to date.</p>
-      <nav>
-        <a href="#logos">Logos</a><a href="#colours">Colours</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#icons">Icons</a>
-      </nav>
-    </header>
-
-    <main>
+<Docs
+  title="Foundations"
+  intro="Logos, colours, type, spacing and icons for everything the club makes. Every value on this page is read from <code>tokens/tokens.css</code>, so it's always up to date."
+  sections={[{ id: 'logos', label: 'Logos' }, { id: 'colours', label: 'Colours' }, { id: 'type', label: 'Type' }, { id: 'spacing', label: 'Spacing' }, { id: 'icons', label: 'Icons' }]}
+>
       <section id="logos">
         <h2>Logos</h2>
         <div class="grid logos">
@@ -146,76 +129,20 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
           ))}
         </div>
       </section>
-    </main>
-  </body>
-</html>
-
-<style is:global>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: var(--font-body);
-    color: var(--color-text);
-    background: var(--color-off-white);
-    line-height: var(--leading-medium);
-  }
-  h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--color-heading); line-height: var(--leading-small); }
-  code { font-size: var(--text-12); color: var(--color-info-text); }
-</style>
+</Docs>
 
 <style>
-  .hero {
-    background: var(--wtc-blue-900);
-    color: var(--color-text-on-dark);
-    padding: var(--space-60) var(--space-24) var(--space-40);
-  }
-  .hero > * { max-width: 1100px; margin-inline: auto; }
-  .hero-logo { display: block; height: 56px; }
-  .hero h1 { color: var(--color-white); font-size: var(--text-48); margin-block: var(--space-30) var(--space-12); }
-  .hero p { font-size: var(--text-18); max-width: 640px; margin-inline: 0; }
-  .hero code { color: var(--wtc-blue-200); font-size: inherit; }
-  .hero nav { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-30); }
-  .hero nav a {
-    color: var(--color-white);
-    text-decoration: none;
-    font-weight: var(--weight-medium);
-    padding: var(--space-6) var(--space-14);
-    border: 1px solid var(--wtc-blue-600);
-    border-radius: 999px;
-  }
-  .hero nav a:hover { background: var(--wtc-blue-700); }
+  h4 { text-transform: capitalize; }
 
-  main { max-width: 1100px; margin: 0 auto; padding: 0 var(--space-24) var(--space-80); }
-  section { padding-top: var(--space-60); }
-  h2 { font-size: var(--text-36); border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-12); }
-  h3 { font-size: var(--text-22); margin-top: var(--space-40); }
-  h4 { font-size: var(--text-16); text-transform: capitalize; margin-bottom: var(--space-8); }
-  .note { color: var(--color-info-text); }
-
-  .grid { display: grid; gap: var(--space-16); }
   .logos { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
   .icons { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .roles { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
   .leading { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
 
-  .tile {
-    margin: 0;
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: var(--space-20);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-12);
-  }
-  .tile.dark { background: var(--wtc-blue-900); }
-  .tile.dark figcaption { color: var(--wtc-steel-300); }
   .tile.text { align-items: stretch; }
   .tile.text p { margin: 0; }
   .logos img { height: 60px; max-width: 100%; }
   .icons img { height: 32px; max-width: 100%; }
-  figcaption { font-size: var(--text-12); color: var(--color-info-text); word-break: break-all; text-align: center; }
 
   .palette { margin-bottom: var(--space-24); }
   .swatches { display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--space-6); }
@@ -235,7 +162,6 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
   .bar { height: 14px; background: var(--color-accent); border-radius: 2px; }
 
   @media (max-width: 767px) {
-    .hero h1 { font-size: var(--text-36); }
     .swatches { grid-template-columns: repeat(6, 1fr); }
   }
 </style>

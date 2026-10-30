@@ -1,0 +1,22 @@
+---
+// A person's photo, square like the rest of the site. With no photo it shows their initials.
+//   <Avatar name="Cassandra Hinton" src={photo} size="md" />
+import './components.css';
+
+interface Props {
+  /** The person's name: used for the initials and for screen readers. */
+  name: string;
+  /** Photo address. Leave out to show initials. */
+  src?: string;
+  /** xs 40px, sm 90px (contacts), md 120px, lg 160px (coach grid), xl 220px (featured coach). */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  shape?: 'square' | 'round';
+  /** Set when the name is already written next to the photo, so screen readers don't read it twice. */
+  decorative?: boolean;
+}
+const { name, src, size = 'sm', shape = 'square', decorative = false } = Astro.props;
+const initials = name.split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+---
+<span class="wtc-avatar" data-size={size} data-shape={shape === 'round' ? 'round' : undefined} {...(!src && !decorative ? { role: 'img', 'aria-label': name } : {})}>
+  {src ? <img src={src} alt={decorative ? '' : name} loading="lazy" /> : <span aria-hidden="true">{initials}</span>}
+</span>

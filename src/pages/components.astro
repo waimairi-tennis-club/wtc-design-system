@@ -1,0 +1,141 @@
+---
+// Components: every component with live examples and how to use it.
+import Docs from '../layouts/Docs.astro';
+import Button from '../../components/Button.astro';
+import IconButton from '../../components/IconButton.astro';
+import Avatar from '../../components/Avatar.astro';
+
+const colours = ['blue', 'dark', 'white'] as const;
+const buttonsOnLight = [
+  { color: 'blue', hover: 'dark', old: 'blue-to-black' },
+  { color: 'dark', hover: 'blue', old: 'black-to-blue' },
+] as const;
+const buttonsOnDark = [
+  { color: 'white', hover: 'blue', old: 'white-to-blue' },
+  { color: 'white', hover: 'dark', old: 'white-to-black' },
+  { color: 'blue', hover: 'white', old: 'blue-to-white' },
+  { color: 'dark', hover: 'white', old: 'black-to-white' },
+] as const;
+const avatarSizes = [
+  { size: 'xs', px: 40, use: 'Lists, comments' },
+  { size: 'sm', px: 90, use: 'Contact blocks' },
+  { size: 'md', px: 120, use: '' },
+  { size: 'lg', px: 160, use: 'Coach grid' },
+  { size: 'xl', px: 220, use: 'Featured coach' },
+] as const;
+---
+<Docs
+  title="Components"
+  intro="The building blocks the website is made from. Hover over them to see them move. Each one is plain HTML and CSS underneath (<code>components/components.css</code>), so it works anywhere."
+  sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }]}
+>
+  <section id="button">
+    <h2>Button</h2>
+    <p class="note">The club's main call to action: uppercase text with a small arrow. On hover the arrow slides away and the colour changes. Pick a resting <strong>color</strong> and a <strong>hover</strong> colour that stands out from the background.</p>
+
+    <h3>On light backgrounds</h3>
+    <div class="demo light">
+      {buttonsOnLight.map(b => (
+        <figure><Button href="#button" color={b.color} hover={b.hover}>More info</Button><figcaption>color="{b.color}" hover="{b.hover}"<br />was {b.old}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3>On dark backgrounds</h3>
+    <div class="demo dark">
+      {buttonsOnDark.map(b => (
+        <figure><Button href="#button" color={b.color} hover={b.hover}>Join now</Button><figcaption>color="{b.color}" hover="{b.hover}"<br />was {b.old}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3>Sizes and widths</h3>
+    <div class="demo light">
+      <figure><Button href="#button">Normal</Button><figcaption>size="normal"</figcaption></figure>
+      <figure><Button href="#button" size="small">Small</Button><figcaption>size="small" (new)</figcaption></figure>
+      <figure class="wide"><Button href="#button" full>Full width</Button><figcaption>full</figcaption></figure>
+    </div>
+
+    <h4>Use it</h4>
+    <pre><code>{`<Button href="/membership">Join now</Button>
+<Button href="https://forms.gle/…" color="white" hover="blue">RSVP</Button>
+
+<!-- Plain HTML -->
+<a class="wtc-button" data-color="blue" data-hover="dark" href="/membership">
+  <span class="wtc-button__text">Join now</span>
+  <svg class="wtc-button__arrow" viewBox="0 0 4 8"><path d="M4 4 0 8V0z" fill="currentColor"/></svg>
+</a>`}</code></pre>
+    <p class="note">Links to other websites open in a new tab automatically. Without an <code>href</code> it becomes a real button, for forms.</p>
+  </section>
+
+  <section id="icon-button">
+    <h2>Icon button</h2>
+    <p class="note">Square phone and email buttons, shown next to a contact's details.</p>
+    <div class="demo light">
+      <figure><IconButton icon="phone" href="#icon-button" label="Call" /><figcaption>phone</figcaption></figure>
+      <figure><IconButton icon="email" href="#icon-button" label="Email" /><figcaption>email</figcaption></figure>
+    </div>
+    <div class="demo dark">
+      <figure><IconButton icon="phone" href="#icon-button" label="Call" color="white" /><figcaption>color="white"</figcaption></figure>
+      <figure><IconButton icon="email" href="#icon-button" label="Email" color="white" /><figcaption>color="white"</figcaption></figure>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<IconButton icon="phone" href="tel:0210223765" label="Call Cassandra" />`}</code></pre>
+  </section>
+
+  <section id="avatar">
+    <h2>Avatar</h2>
+    <p class="note">A person's photo. Square, like the rest of the site. When there's no photo it shows their initials on a light blue tile, so nobody is left with a blank space or someone else's picture.</p>
+
+    <h3>Sizes</h3>
+    <div class="demo light bottom">
+      {avatarSizes.map(a => (
+        <figure><Avatar name="Rhys" src="/examples/rhys-picture.avif" size={a.size} /><figcaption>{a.size} · {a.px}px{a.use && <><br />{a.use}</>}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3>No photo</h3>
+    <div class="demo light bottom">
+      {avatarSizes.map(a => (
+        <figure><Avatar name="Cassandra Hinton" size={a.size} /><figcaption>{a.size}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3>Round (new)</h3>
+    <div class="demo light bottom">
+      <figure><Avatar name="Rhys" src="/examples/rhys-picture.avif" size="sm" shape="round" /><figcaption>shape="round"</figcaption></figure>
+      <figure><Avatar name="Cassandra Hinton" size="sm" shape="round" /><figcaption>shape="round"</figcaption></figure>
+      <figure><Avatar name="Glen Duffield" size="xs" shape="round" /><figcaption>xs, round</figcaption></figure>
+    </div>
+
+    <h4>Use it</h4>
+    <pre><code>{`<Avatar name="Cassandra Hinton" src={photo} size="sm" />
+<Avatar name="Cassandra Hinton" />   <!-- initials -->`}</code></pre>
+  </section>
+</Docs>
+
+<style>
+  .demo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-30);
+    padding: var(--space-30);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-white);
+    margin-bottom: var(--space-16);
+  }
+  .demo.dark { background: var(--wtc-blue-900); border-color: var(--wtc-blue-900); }
+  .demo.dark figcaption { color: var(--wtc-steel-300); }
+  .demo.bottom { align-items: flex-end; }
+  .demo figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
+  .demo figure.wide { flex: 1 1 260px; align-items: stretch; }
+  .demo figcaption { font-family: ui-monospace, monospace; line-height: 1.5; }
+  pre {
+    background: var(--wtc-blue-950);
+    color: var(--wtc-blue-100);
+    padding: var(--space-20);
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  pre code { color: inherit; font-size: var(--text-14); }
+</style>

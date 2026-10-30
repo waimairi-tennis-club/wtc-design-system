@@ -1,0 +1,33 @@
+---
+// The club's arrow button: a link, or a real <button> when there's no href.
+//   <Button href="/membership">Join now</Button>                       blue, turns dark on hover
+//   <Button href="…" color="white" hover="blue">More info</Button>
+import './components.css';
+
+type Colour = 'blue' | 'dark' | 'white';
+interface Props {
+  href?: string;
+  /** Resting colour. Default blue. */
+  color?: Colour;
+  /** Colour on hover. Default: dark for blue buttons, blue for the others. */
+  hover?: Colour;
+  size?: 'normal' | 'small';
+  /** Stretch to fill the width of its container. */
+  full?: boolean;
+  /** Opens in a new tab. Defaults to true for links to other websites. */
+  external?: boolean;
+  /** Extra words for screen readers, hidden on screen, e.g. "about Club Champs" after "MORE INFO". */
+  srText?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+const { href, color = 'blue', size = 'normal', full = false, srText, type = 'button', class: extra } = Astro.props;
+const hover = Astro.props.hover ?? (color === 'blue' ? 'dark' : 'blue');
+const external = Astro.props.external ?? (!!href && /^https?:\/\//.test(href));
+const Tag = href ? 'a' : 'button';
+const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener' } : {}) } : { type };
+---
+<Tag class:list={['wtc-button', extra]} data-color={color} data-hover={hover} data-size={size === 'small' ? 'small' : undefined} data-full={full || undefined} {...attrs}>
+  <span class="wtc-button__text"><slot /></span>{srText && <span class="wtc-visually-hidden"> {srText}</span>}
+  <svg class="wtc-button__arrow" viewBox="0 0 4 8" aria-hidden="true"><path d="M4 4 0 8V0z" fill="currentColor" /></svg>
+</Tag>

@@ -1,0 +1,97 @@
+/* WTC components. Plain CSS so it works in any page; the Astro components in this folder just write the markup.
+   Needs tokens/tokens.css loaded first. Class names start with "wtc-" so they never clash with anything else. */
+
+/* ---------- Button ----------
+   The club's arrow button. data-color is the resting colour, data-hover the colour it turns on hover.
+   Colours: blue (WTC blue 500), dark (WTC blue 900), white. */
+.wtc-button {
+  --_bg: var(--wtc-blue-500);
+  --_fg: var(--color-white);
+  --_ease: cubic-bezier(0.215, 0.61, 0.355, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  padding: 23px 35px;
+  border: 0;
+  background: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--font-body);
+  font-size: var(--text-14);
+  font-weight: var(--weight-medium);
+  line-height: 130%;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.wtc-button[data-color='dark'] { --_bg: var(--wtc-blue-900); }
+.wtc-button[data-color='white'] { --_bg: var(--color-white); --_fg: var(--wtc-blue-900); font-weight: var(--weight-semibold); }
+.wtc-button[data-hover='blue']:is(:hover, :focus-visible) { --_bg: var(--wtc-blue-500); --_fg: var(--color-white); font-weight: var(--weight-medium); }
+.wtc-button[data-hover='dark']:is(:hover, :focus-visible) { --_bg: var(--wtc-blue-900); --_fg: var(--color-white); font-weight: var(--weight-medium); }
+.wtc-button[data-hover='white']:is(:hover, :focus-visible) { --_bg: var(--color-white); --_fg: var(--wtc-blue-900); font-weight: var(--weight-semibold); }
+.wtc-button[data-size='small'] { padding: 14px 22px; font-size: var(--text-12); }
+.wtc-button[data-full] { display: flex; width: 100%; }
+
+/* On hover the arrow slides right and fades, and the text nudges right */
+.wtc-button__text,
+.wtc-button__arrow { transition: transform 350ms var(--_ease), opacity 350ms var(--_ease); }
+.wtc-button__arrow { width: 4px; height: 8px; flex-shrink: 0; }
+.wtc-button:is(:hover, :focus-visible) .wtc-button__arrow { transform: translateX(16px); opacity: 0; }
+.wtc-button:is(:hover, :focus-visible) .wtc-button__text { transform: translateX(8px); }
+
+/* ---------- Icon button ----------
+   The square phone/email buttons next to a contact's details. */
+.wtc-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--wtc-blue-500);
+  color: var(--color-white);
+  transition: background-color 0.2s ease-in-out;
+}
+.wtc-icon-button:is(:hover, :focus-visible) { background: var(--wtc-blue-600); }
+.wtc-icon-button[data-color='white'] { background: var(--color-white); color: var(--wtc-blue-500); }
+.wtc-icon-button[data-color='white']:is(:hover, :focus-visible) { background: var(--wtc-blue-50); }
+.wtc-icon-button svg { width: 20px; height: 20px; }
+
+/* ---------- Avatar ----------
+   A person's photo, square like the rest of the site. Without a photo it shows their initials. */
+.wtc-avatar {
+  --_size: 90px;
+  display: inline-grid;
+  place-items: center;
+  width: var(--_size);
+  height: var(--_size);
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--wtc-blue-100);
+  color: var(--wtc-blue-700);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-semibold);
+  font-size: calc(var(--_size) * 0.36);
+  line-height: 1;
+}
+.wtc-avatar[data-size='xs'] { --_size: 40px; }
+.wtc-avatar[data-size='md'] { --_size: 120px; }
+.wtc-avatar[data-size='lg'] { --_size: 160px; }
+.wtc-avatar[data-size='xl'] { --_size: 220px; }
+.wtc-avatar[data-shape='round'] { border-radius: 50%; }
+.wtc-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- Helpers ---------- */
+/* Hidden on screen, still read by screen readers. */
+.wtc-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
