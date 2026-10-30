@@ -1,0 +1,32 @@
+---
+// The big photo header at the top of a page. The photo fades to dark blue at the bottom, where the text sits.
+//   <PageHero image="/court.jpg" label="Waimairi Tennis Club" title="All year round senior tennis" intro="…" />
+// Anything in the slot (buttons, a date line) goes under the intro.
+// variant: news (default), event (a little shorter, stronger fade), plain (no photo, blue, short).
+import Subtitle from './Subtitle.astro';
+import './components.css';
+
+interface Props {
+  title: string;
+  label?: string;
+  intro?: string;
+  image?: string;
+  imageAlt?: string;
+  variant?: 'news' | 'event' | 'plain';
+  /** slim (770px, like news and event pages) or wide (1200px). */
+  width?: 'slim' | 'wide';
+}
+const { title, label, intro, image, imageAlt = '', variant = 'news', width = 'slim' } = Astro.props;
+const hasImageSlot = Astro.slots.has('image');
+---
+<section class="wtc-page-hero" data-variant={variant} data-width={width}>
+  <slot name="image">{image && variant !== 'plain' && <img src={image} alt={imageAlt} class="wtc-page-hero__image" fetchpriority="high" />}</slot>
+  <div class="wtc-page-hero__fade">
+    <div class="wtc-page-hero__content">
+      {label && <Subtitle tone="light">{label}</Subtitle>}
+      <h1 class="wtc-page-hero__title">{title}</h1>
+      {intro && <p class="wtc-page-hero__intro" set:html={intro} />}
+      {Astro.slots.has('default') && <div class="wtc-page-hero__extra"><slot /></div>}
+    </div>
+  </div>
+</section>

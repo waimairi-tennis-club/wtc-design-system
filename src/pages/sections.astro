@@ -1,0 +1,118 @@
+---
+// Page sections: the big pieces a page is built from. This page's own header, hero and footer are live examples too.
+import Docs from '../layouts/Docs.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaStrip from '../../components/CtaStrip.astro';
+import SplitBanner from '../../components/SplitBanner.astro';
+import Footer from '../../components/Footer.astro';
+import BackToTop from '../../components/BackToTop.astro';
+---
+<Docs
+  title="Page sections"
+  intro="The big pieces every page is built from. The header, hero and footer on this page are the real components."
+  sections={[{ id: 'header', label: 'Header' }, { id: 'page-hero', label: 'Page hero' }, { id: 'cta-strip', label: 'Call-to-action strip' }, { id: 'split-banner', label: 'Split banner' }, { id: 'footer', label: 'Footer' }, { id: 'back-to-top', label: 'Back to top' }, { id: 'headings', label: 'Headings and text' }]}
+>
+  <section id="header">
+    <SectionHeading label="Page sections" title="Header" />
+    <div class="note">
+      <p>The white bar floating at the top of every page: logo, menu with dropdowns, and a blue button at the end. It lifts slightly once you scroll. On tablets and phones the menu folds away behind the blue menu button. Make this window narrow to try it.</p>
+      <p>The one at the top of this page is the real component. Below is the club's full menu, as on wtc.co.nz (click Juniors, Seniors or About to open them).</p>
+    </div>
+    <div class="demo grey header-demo">
+      <Header />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<Header />                         <!-- the club's menu and CONTACT button -->
+<Header menu={[{ label: 'Events', href: '/events' }]} cta={{ href: '/join', text: 'Join' }} />`}</code></pre>
+  </section>
+
+  <section id="page-hero">
+    <SectionHeading label="Page sections" title="Page hero" />
+    <p class="note">The photo header at the top of a page. The photo fades to dark blue at the bottom where the title sits. Three versions: <strong>news</strong> (the default), <strong>event</strong> (a little shorter), and <strong>plain</strong> (no photo).</p>
+    <div class="demo flush"><PageHero image="/images/hero.avif" label="Waimairi Tennis Club" title="All year round senior tennis" intro="Whether you're into competitive Interclub, social play, or relaxed midweek hits, Waimairi has something for every senior player." /></div>
+    <div class="demo flush"><PageHero variant="event" image="/examples/matariki.avif" label="Event" title="Matariki Masters Tournament" intro="Fri, 10 July 2026 — Sun, 12 July 2026" /></div>
+    <div class="demo flush"><PageHero variant="plain" label="About us" title="Terms and conditions" /></div>
+    <h4>Use it</h4>
+    <pre><code>{`<PageHero image="/court.jpg" label="Waimairi Tennis Club" title="All year round senior tennis" intro="…">
+  <Button href="/membership" color="white">Join now</Button>   <!-- optional -->
+</PageHero>`}</code></pre>
+  </section>
+
+  <section id="cta-strip">
+    <SectionHeading label="Page sections" title="Call-to-action strip" />
+    <p class="note">A full-width band with one line and one button. Used for "book your court" on most pages, and "hire our clubrooms" in teal.</p>
+    <div class="demo flush stack">
+      <CtaStrip text="Grab a friend, pick a time, and book your court today!" button={{ href: '#cta-strip', text: 'Book now' }} />
+      <CtaStrip tone="teal" text="Hire our clubrooms for your next social event!" button={{ href: '#cta-strip', text: 'Contact us' }} />
+      <CtaStrip tone="blue" text="Free trial sessions every Saturday morning." button={{ href: '#cta-strip', text: 'Find out more' }} />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<CtaStrip text="Grab a friend, pick a time, and book your court today!"
+  button={{ href: 'https://nz.tennisvenues.com/booking/waimairi-tennis-club', text: 'Book now' }} />`}</code></pre>
+  </section>
+
+  <section id="split-banner">
+    <SectionHeading label="Page sections" title="Split banner" />
+    <p class="note">A photo next to a blue block with a heading and button, as in "Join the club!" on the home page.</p>
+    <div class="demo flush stack">
+      <SplitBanner image="/images/wtc-racket-balls.avif" label="Enjoy tennis?" title="Join the club!" button={{ href: '#split-banner', text: 'Join now' }} />
+      <SplitBanner reverse image="/images/hero.avif" label="Seniors" title="Come along for a free trial" button={{ href: '#split-banner', text: 'Get in touch' }} />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<SplitBanner image="/racket.jpg" label="Enjoy tennis?" title="Join the club!"
+  button={{ href: '/membership', text: 'Join now' }} />`}</code></pre>
+  </section>
+
+  <section id="footer">
+    <SectionHeading label="Page sections" title="Footer" />
+    <p class="note">The dark footer at the bottom of every page. Below is the club's own footer, as on wtc.co.nz. The one at the bottom of this page is the same component with different links.</p>
+    <div class="demo flush"><Footer /></div>
+    <h4>Use it</h4>
+    <pre><code>{`<Footer />                                   <!-- the club's links -->
+<Footer columns={[{ title: 'Links', links: [{ label: 'Home', href: '/' }] }]} about={['…']} />`}</code></pre>
+  </section>
+
+  <section id="back-to-top">
+    <SectionHeading label="Page sections" title="Back to top" />
+    <p class="note">The square button in the bottom-right corner. It appears while you scroll down a page and hides when you scroll back up. Scroll this page to see the real one.</p>
+    <div class="demo"><figure><BackToTop static /><figcaption>Shown here in place</figcaption></figure></div>
+    <h4>Use it</h4>
+    <pre><code>{`<BackToTop />   <!-- once per page -->`}</code></pre>
+  </section>
+
+  <section id="headings">
+    <SectionHeading label="Page sections" title="Headings and text" />
+    <p class="note">The site's type scale. Use the classes <code>wtc-h1</code> to <code>wtc-h6</code> on any element, or put <code>wtc-prose</code> on a block of ordinary text (like a news post) to style everything inside it. Sizes step down on tablets and phones.</p>
+    <div class="demo flush prose-demo">
+      <div class="wtc-prose">
+        <h1>Heading 1 · 70px</h1>
+        <h2>Heading 2 · 58px</h2>
+        <h3>Heading 3 · 46px</h3>
+        <h4>Heading 4 · 36px</h4>
+        <h5>Heading 5 · 26px</h5>
+        <h6>Heading 6 · 18px</h6>
+        <p>Body text is 18px Barlow with generous line spacing. Join one of our many <strong>Senior Interclub</strong> teams, take part in organised social play, or enjoy a more relaxed hit. <a href="#headings">Links are WTC blue.</a></p>
+        <ul><li>Senior Club Championships</li><li>Christmas and end-of-season celebrations</li><li>Winter Business House</li></ul>
+      </div>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<h2 class="wtc-h2">Come along for a free trial</h2>
+
+<div class="wtc-prose">
+  <h3>Annual events</h3>
+  <p>…</p>
+</div>`}</code></pre>
+  </section>
+</Docs>
+
+<style>
+  .stack { display: flex; flex-direction: column; align-items: stretch; gap: var(--space-14); }
+  .demo.flush { margin-bottom: var(--space-14); }
+  /* Show the club header in place inside its grey box, not floating over the page */
+  .header-demo { display: block; padding: var(--space-30) var(--space-30) 360px; }
+  .header-demo :global(.wtc-header) { position: relative; top: 0; left: 0; right: 0; transform: none; }
+  .prose-demo { padding: var(--space-40); background: var(--color-off-white); }
+  .prose-demo :global(.wtc-prose h1) { color: var(--color-heading); }
+</style>

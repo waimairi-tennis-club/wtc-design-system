@@ -9,6 +9,10 @@ import EventCard from '../../components/EventCard.astro';
 import NewsCard from '../../components/NewsCard.astro';
 import PersonCard from '../../components/PersonCard.astro';
 import MembershipCard from '../../components/MembershipCard.astro';
+import Subtitle from '../../components/Subtitle.astro';
+import InfoBox from '../../components/InfoBox.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import SponsorLogo from '../../components/SponsorLogo.astro';
 
 const colours = ['blue', 'dark', 'white'] as const;
 const buttonsOnLight = [
@@ -32,7 +36,7 @@ const avatarSizes = [
 <Docs
   title="Components"
   intro="The building blocks the website is made from. Hover over them to see them move. Each one is plain HTML and CSS underneath (<code>components/components.css</code>), so it works anywhere."
-  sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }, { id: 'event-card', label: 'Event card' }, { id: 'news-card', label: 'News card' }, { id: 'person-card', label: 'Person card' }, { id: 'membership-card', label: 'Membership card' }]}
+  sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }, { id: 'event-card', label: 'Event card' }, { id: 'news-card', label: 'News card' }, { id: 'person-card', label: 'Person card' }, { id: 'membership-card', label: 'Membership card' }, { id: 'subtitle', label: 'Subtitle' }, { id: 'info-box', label: 'Info box' }, { id: 'filter', label: 'Category filter' }, { id: 'sponsor', label: 'Sponsor logo' }]}
 >
   <section id="button">
     <SectionHeading label="Components" title="Button" />
@@ -189,43 +193,86 @@ const avatarSizes = [
   <ul><li>Use of all courts</li></ul>
 </MembershipCard>`}</code></pre>
   </section>
+
+  <section id="subtitle">
+    <SectionHeading label="Components" title="Subtitle" />
+    <p class="note">The small line and label above a heading. It tells people where they are ("Join us", "Waimairi Tennis Club", a date) before the big heading.</p>
+    <div class="demo">
+      <figure><Subtitle>Join us</Subtitle><figcaption>tone="dark"</figcaption></figure>
+    </div>
+    <div class="demo dark">
+      <figure><Subtitle tone="light">Waimairi Tennis Club</Subtitle><figcaption>tone="light"</figcaption></figure>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<Subtitle>Join us</Subtitle>
+<h2 class="wtc-h2">Come along for a free trial</h2>`}</code></pre>
+  </section>
+
+  <section id="info-box">
+    <SectionHeading label="Components" title="Info box" />
+    <p class="note">The blue boxes on an event page. An icon, a heading and whatever goes inside: an address, dates, a contact or bank details.</p>
+    <div class="info-boxes">
+      <InfoBox icon="location" heading="Location"><p>Waimairi Tennis Club<br />49 Watford Street</p></InfoBox>
+      <InfoBox icon="calendar" heading="Date"><p>Wednesday, 9 December 2026<br />6:00 pm — 8:00 pm</p></InfoBox>
+      <InfoBox icon="info" heading="For more info"><p>Contact Cassandra Hinton on 021 0223 7650 or email <a href="mailto:admin@wtc.co.nz">admin@wtc.co.nz</a></p></InfoBox>
+      <InfoBox icon="payment" heading="Payment details"><p>To register, please make payment to the account below and include your full name as the reference.<br />12-3209-0326080-00</p></InfoBox>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<InfoBox icon="location" heading="Location">
+  <p>Waimairi Tennis Club, 49 Watford Street</p>
+</InfoBox>`}</code></pre>
+    <p class="note">Icons: calendar, location, info, payment, phone, email.</p>
+  </section>
+
+  <section id="filter">
+    <SectionHeading label="Components" title="Category filter" />
+    <p class="note">The category buttons above the Events and News lists. Tick one or more to narrow the list; ALL shows everything again. Try it below.</p>
+    <div class="demo grey flush-pad">
+      <div style="width: 100%">
+        <CategoryFilter list="demo" label="Filter events:" categories={[{ id: 'juniors', name: 'Juniors' }, { id: 'seniors', name: 'Seniors' }, { id: 'social', name: 'Social' }, { id: 'interclub', name: 'Interclub' }]} />
+        <div class="filter-list" data-filter-list="demo">
+          <div data-categories="juniors">Junior Club Champs</div>
+          <div data-categories="seniors social">Senior Christmas Party</div>
+          <div data-categories="juniors social">Hot Shots Christmas Party</div>
+          <div data-categories="seniors interclub">Senior Interclub</div>
+        </div>
+      </div>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<CategoryFilter list="events" label="Filter events:" categories={categories} />
+<div data-filter-list="events">
+  <EventCard data-categories="juniors social" … />
+</div>`}</code></pre>
+  </section>
+
+  <section id="sponsor">
+    <SectionHeading label="Components" title="Sponsor logo" />
+    <p class="note">A sponsor's logo on their own background colour, linking to their website. The logo shrinks a touch on hover.</p>
+    <div class="sponsors">
+      <SponsorLogo logo="/examples/sponsors/davis-ogilvie-logo.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />
+      <SponsorLogo logo="/examples/sponsors/christchurch-city-council-logo.svg" alt="Christchurch City Council" href="https://ccc.govt.nz" />
+      <SponsorLogo logo="/examples/sponsors/elmwood-dental-logo.svg" alt="Elmwood Dental" href="https://elmwooddental.co.nz" />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<SponsorLogo logo="/davis-ogilvie.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />`}</code></pre>
+  </section>
 </Docs>
 
 <style>
-  .demo {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-30);
-    padding: var(--space-30);
-    background: var(--color-off-white);
-    margin-bottom: var(--space-16);
-  }
-  .demo.dark { background: var(--wtc-blue-900); }
-  .demo.dark figcaption { color: var(--wtc-steel-300); }
-  .demo.bottom { align-items: flex-end; }
-  .demo.top { align-items: flex-start; gap: var(--space-60); }
-  .demo.white { background: var(--color-white); padding: 0; }
   .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-20); margin-bottom: var(--space-16); }
   .cards.grey { background: var(--wtc-steel-200); padding: var(--space-30); }
   .stack { display: flex; flex-direction: column; gap: var(--space-40); margin-bottom: var(--space-16); }
   .coach-feature { flex: 0 1 360px; }
   .coach-grid { flex: 1 1 360px; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-40); }
+  .info-boxes { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-14); margin-bottom: var(--space-16); }
+  .sponsors { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-14); margin-bottom: var(--space-16); }
+  .filter-list { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-20); }
+  .filter-list > div { background: var(--color-white); padding: var(--space-8) var(--space-14); font-size: var(--text-15); }
   @media (max-width: 991px) {
     .cards { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 767px) {
-    .cards { grid-template-columns: 1fr; }
+    .cards, .info-boxes, .sponsors { grid-template-columns: 1fr; }
     .cards.grey { padding: var(--space-16); }
   }
-  .demo figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
-  .demo figure.wide { flex: 1 1 260px; align-items: stretch; }
-  .demo figcaption { font-family: ui-monospace, monospace; line-height: 1.5; }
-  pre {
-    background: var(--wtc-blue-950);
-    color: var(--wtc-blue-100);
-    padding: var(--space-20);
-    overflow-x: auto;
-  }
-  pre code { color: inherit; font-size: var(--text-14); }
 </style>

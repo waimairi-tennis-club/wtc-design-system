@@ -1,0 +1,51 @@
+---
+// Category buttons above a list. Tick one or more to show only matching items; ALL clears them.
+// Each item in the list needs data-categories="juniors seniors", and the list needs data-filter-list="<list>".
+//   <CategoryFilter list="events" label="Filter events:" categories={[{ id: 'juniors', name: 'Juniors' }]} />
+//   <div data-filter-list="events"> <EventCard data-categories="juniors" … /> … </div>
+import './components.css';
+
+interface Props {
+  categories: { id: string; name: string }[];
+  /** Must match data-filter-list on the list it filters. */
+  list: string;
+  label: string;
+}
+const { categories, list, label } = Astro.props;
+---
+<form class="wtc-filter" data-filter-for={list} onsubmit="return false">
+  <div id={`${list}-filter-label`}>{label}</div>
+  <div class="wtc-filter__row">
+    <div class="wtc-filter__chips" role="group" aria-labelledby={`${list}-filter-label`}>
+      {categories.map(c => (
+        <label class="wtc-chip" data-facet={c.id}><input type="checkbox" value={c.id} />{c.name}</label>
+      ))}
+    </div>
+    <button type="button" class="wtc-chip" data-clear aria-label="Show all categories">All</button>
+  </div>
+</form>
+
+<script>
+  // Hides list items that don't match the ticked categories. Categories with nothing in the list are hidden.
+  for (const form of document.querySelectorAll<HTMLFormElement>('form.wtc-filter[data-filter-for]')) {
+    const list = document.querySelector<HTMLElement>(`[data-filter-list="${form.dataset.filterFor}"]`);
+    if (!list) continue;
+    const items = [...list.querySelectorAll<HTMLElement>('[data-categories]')];
+    const boxes = [...form.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+    const used = new Set(items.flatMap(i => (i.dataset.categories ?? '').split(' ')));
+    for (const facet of form.querySelectorAll<HTMLElement>('[data-facet]')) facet.hidden = !used.has(facet.dataset.facet!);
+    const apply = () => {
+      const chosen = boxes.filter(b => b.checked).map(b => b.value);
+      for (const item of items) {
+        const cats = (item.dataset.categories ?? '').split(' ');
+        // data-date-hidden: items hidden for another reason (e.g. a finished event) stay hidden.
+        item.hidden = item.dataset.dateHidden === 'true' || (chosen.length > 0 && !chosen.some(c => cats.includes(c)));
+      }
+    };
+    form.addEventListener('change', apply);
+    form.querySelector('[data-clear]')?.addEventListener('click', () => {
+      boxes.forEach(b => (b.checked = false));
+      apply();
+    });
+  }
+</script>

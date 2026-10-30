@@ -1,10 +1,12 @@
 ---
-// The shell for every page of the reference site, built to look like www.wtc.co.nz:
-// a pale frame, a photo hero with the floating white nav bar, white page blocks and the dark footer.
+// The shell for every page of the reference site. It's built from the design system's own
+// Header, PageHero and Footer, so it looks exactly like www.wtc.co.nz.
 import { Font } from 'astro:assets';
-import blueLogo from '../../assets/logos/wtc-primary-blue500-logo.svg?url';
-import whiteLogo from '../../assets/logos/wtc-white-logo.svg?url';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import Footer from '../../components/Footer.astro';
 import Button from '../../components/Button.astro';
+import BackToTop from '../../components/BackToTop.astro';
 import '../../tokens/tokens.css';
 
 interface Props {
@@ -15,10 +17,10 @@ interface Props {
 }
 const { title, intro, sections } = Astro.props;
 const pages = [
-  { href: '/', label: 'Foundations' },
-  { href: '/components', label: 'Components' },
+  { label: 'Foundations', href: '/' },
+  { label: 'Components', href: '/components' },
+  { label: 'Page sections', href: '/sections' },
 ];
-const here = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <!doctype html>
 <html lang="en-NZ">
@@ -30,46 +32,23 @@ const here = Astro.url.pathname.replace(/\/$/, '') || '/';
     <link rel="icon" type="image/png" href="/favicon.png" />
     <Font cssVariable="--font-barlow" preload />
   </head>
-  <body>
-    <header class="hero">
-      <img src="/images/hero.avif" alt="" class="hero-photo" />
-      <nav class="navbar" aria-label="Design system">
-        <a href="/" class="brand"><img src={blueLogo} alt="Waimairi Tennis Club design system" /></a>
-        <div class="nav-links">
-          {pages.map(p => <a href={p.href} aria-current={p.href === here ? 'page' : undefined}>{p.label}</a>)}
-          <a href="https://www.wtc.co.nz" class="nav-cta">Website <svg viewBox="0 0 4 8" aria-hidden="true"><path d="M4 4 0 8V0z" fill="currentColor" /></svg></a>
-        </div>
-      </nav>
-      <div class="hero-text">
-        <div class="subtitle white"><span class="line"></span>WTC design system</div>
-        <h1>{title}</h1>
-        <p set:html={intro} />
-        <div class="jump">
-          {sections.map(s => <Button href={`#${s.id}`} color="white" hover="blue" size="small">{s.label}</Button>)}
-        </div>
-      </div>
-    </header>
-
+  <body id="top">
+    <Header menu={pages} cta={{ href: 'https://www.wtc.co.nz', text: 'Website' }} logoAlt="Waimairi Tennis Club design system home" />
+    <PageHero image="/images/hero.avif" label="WTC design system" title={title} intro={intro} width="wide">
+      {sections.map(s => <Button href={`#${s.id}`} color="white" hover="blue" size="small">{s.label}</Button>)}
+    </PageHero>
     <main><slot /></main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        <div>
-          <img src={whiteLogo} alt="Waimairi Tennis Club" class="footer-logo" />
-          <p>The club's logos, colours, type and components, so everything we make looks like it belongs together.</p>
-        </div>
-        <div class="footer-col">
-          <div class="subtitle white"><span class="line"></span>Pages</div>
-          {pages.map(p => <a href={p.href}>{p.label}</a>)}
-          <a href="https://www.wtc.co.nz">wtc.co.nz</a>
-        </div>
-      </div>
-    </footer>
+    <Footer
+      about={['The club’s logos, colours, type and components, so everything we make looks like it belongs together.']}
+      columns={[{ title: 'Design system', links: pages }, { title: 'Club', links: [{ label: 'wtc.co.nz', href: 'https://www.wtc.co.nz' }, { label: 'Membership', href: 'https://www.wtc.co.nz/membership' }] }]}
+    />
+    <BackToTop />
   </body>
 </html>
 
 <style is:global>
   * { box-sizing: border-box; }
+  html { scroll-padding-top: 120px; }
   body {
     margin: 0;
     padding: 10px;
@@ -80,6 +59,7 @@ const here = Astro.url.pathname.replace(/\/$/, '') || '/';
     letter-spacing: 0.13px;
     color: var(--color-text);
   }
+  body > .wtc-page-hero { margin-bottom: 10px; }
   h1, h2, h3, h4 {
     font-family: var(--font-heading);
     font-weight: var(--weight-medium);
@@ -89,97 +69,22 @@ const here = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
   h4 { letter-spacing: 0; }
   code { font-size: 0.8em; color: var(--color-info-text); }
-
-  /* The site's "line + label" subtitle that sits above headings */
-  .subtitle {
-    display: flex;
-    align-items: center;
-    gap: var(--space-8);
-    font-size: var(--text-14);
-    font-weight: var(--weight-semibold);
-    line-height: var(--leading-small);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--color-info-text);
-  }
-  .subtitle .line { width: 27px; height: 1px; background: currentColor; flex-shrink: 0; }
-  .subtitle.white { color: var(--color-light); }
-
-  /* Hero: photo with the dark blue fade, like the site's inner pages */
-  .hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: 70vh;
-    margin-bottom: 10px;
-    background: var(--color-dark-blue);
-    overflow: hidden;
-  }
-  .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, var(--wtc-blue-950) 95%); }
-  .navbar {
-    position: absolute;
-    z-index: 30;
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 36px);
-    max-width: 1200px;
-    min-height: 72px;
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    background: var(--color-white);
-  }
-  .brand { display: flex; align-items: center; padding: var(--space-8) var(--space-20); }
-  .brand img { height: 40px; display: block; }
-  .nav-links { display: flex; align-items: stretch; }
-  .nav-links a {
-    display: flex;
-    align-items: center;
-    gap: var(--space-8);
-    padding: 0 var(--space-16);
-    color: var(--wtc-blue-900);
-    font-size: var(--text-14);
-    font-weight: var(--weight-semibold);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-  .nav-links a:hover, .nav-links a[aria-current] { color: var(--wtc-blue-500); }
-  .nav-links a.nav-cta { background: var(--wtc-blue-500); color: var(--color-white); padding: 0 var(--space-30); margin-left: var(--space-8); transition: background-color 0.25s; }
-  .nav-links a.nav-cta:hover { background: var(--wtc-blue-900); }
-  .nav-cta svg { width: 4px; height: 8px; }
-  .hero-text {
-    position: relative;
-    z-index: 20;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 220px var(--space-30) var(--space-60);
-    color: var(--wtc-steel-200);
-  }
-  .hero h1 { color: var(--color-white); font-size: 64px; margin: var(--space-8) 0 var(--space-20); }
-  .hero p { max-width: 640px; margin: 0; }
-  .hero code { color: var(--wtc-blue-200); font-size: inherit; }
-  .jump { display: flex; flex-wrap: wrap; gap: var(--space-10); margin-top: var(--space-30); }
+  .wtc-page-hero code { color: var(--wtc-blue-200); font-size: inherit; }
 
   /* Page blocks: white sections on the pale frame */
   main > section {
     background: var(--color-white);
     margin-bottom: 10px;
     padding: 90px var(--space-30);
-    scroll-margin-top: 10px;
   }
   main > section > * { max-width: 1200px; margin-inline: auto; }
-  main > section > * + * { margin-top: 0; }
   main h2 { font-size: var(--text-48); margin-block: var(--space-12) var(--space-20); }
   main h3 { font-size: var(--text-26); letter-spacing: -0.5px; margin-block: var(--space-50) var(--space-16); }
   main h4 { font-size: var(--text-18); font-weight: var(--weight-semibold); margin-block: var(--space-30) var(--space-10); }
   main p { max-width: 680px; }
-  .note { color: var(--color-text); max-width: 680px; margin-bottom: var(--space-20); }
-  main > section > .note { margin-inline: auto; max-width: 1200px; }
+  main > section > .note { max-width: 1200px; }
+  .note { margin-bottom: var(--space-20); }
+  .note > * { max-width: 680px; }
 
   .grid { display: grid; gap: var(--space-14); }
   .tile {
@@ -195,30 +100,34 @@ const here = Astro.url.pathname.replace(/\/$/, '') || '/';
   .tile.dark figcaption { color: var(--wtc-steel-300); }
   figcaption { font-size: var(--text-12); line-height: 1.5; color: var(--color-info-text); word-break: break-all; text-align: center; letter-spacing: 0; }
 
-  /* Footer */
-  .footer { background: var(--wtc-blue-950); padding: 110px 50px 82px; color: var(--wtc-steel-300); }
-  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; gap: var(--space-40); flex-wrap: wrap; }
-  .footer-logo { height: 48px; display: block; margin-bottom: var(--space-20); }
-  .footer p { max-width: 360px; margin: 0; }
-  .footer-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 200px; }
-  .footer-col .subtitle { margin-bottom: var(--space-10); }
-  .footer-col a { color: var(--wtc-steel-200); font-weight: var(--weight-medium); text-decoration: none; padding: 3px 0; }
-  .footer-col a:hover { color: var(--color-white); }
+  /* Examples and code */
+  .demo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-30);
+    padding: var(--space-30);
+    background: var(--color-off-white);
+    margin-bottom: var(--space-16);
+  }
+  .demo.dark { background: var(--wtc-blue-900); }
+  .demo.dark figcaption { color: var(--wtc-steel-300); }
+  .demo.grey { background: var(--wtc-steel-200); }
+  .demo.white { background: var(--color-white); padding: 0; }
+  .demo.bottom { align-items: flex-end; }
+  .demo.top { align-items: flex-start; gap: var(--space-60); }
+  .demo.flush { display: block; padding: 0; background: none; }
+  .demo figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
+  .demo figure.wide { flex: 1 1 260px; align-items: stretch; }
+  .demo figcaption { font-family: ui-monospace, monospace; }
+  pre { background: var(--wtc-blue-950); color: var(--wtc-blue-100); padding: var(--space-20); overflow-x: auto; }
+  pre code { color: inherit; font-size: var(--text-14); }
 
   @media (max-width: 991px) {
-    .hero h1 { font-size: var(--text-48); }
     main > section { padding: 70px var(--space-24); }
   }
   @media (max-width: 767px) {
-    .navbar { flex-direction: column; top: 10px; width: calc(100% - 20px); }
-    .brand { justify-content: center; }
-    .nav-links { justify-content: center; flex-wrap: wrap; }
-    .nav-links a { padding: var(--space-12); }
-    .nav-links a.nav-cta { margin-left: 0; padding: var(--space-12) var(--space-20); }
-    .hero-text { padding: 200px var(--space-20) var(--space-40); }
-    .hero h1 { font-size: var(--text-40); }
     main h2 { font-size: var(--text-36); }
     main > section { padding: 60px var(--space-20); }
-    .footer { padding: 70px var(--space-24) 60px; }
   }
 </style>

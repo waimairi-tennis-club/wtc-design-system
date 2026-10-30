@@ -1,0 +1,19 @@
+---
+// A blue information box with an icon, as on event pages (Location, Dates, Contact, Payment details).
+//   <InfoBox icon="location" heading="Location"><p>Waimairi Tennis Club, 49 Watford Street</p></InfoBox>
+import Icon from './Icon.astro';
+import './components.css';
+
+interface Props {
+  icon: 'calendar' | 'location' | 'info' | 'payment' | 'phone' | 'email';
+  heading: string;
+  headingLevel?: 'h3' | 'h4' | 'h5';
+}
+const { icon, heading, headingLevel = 'h5' } = Astro.props;
+const Heading = headingLevel;
+---
+<div class="wtc-info-box">
+  <div class="wtc-info-box__icon"><Icon name={icon} /></div>
+  <Heading class="wtc-info-box__heading">{heading}</Heading>
+  <slot />
+</div>

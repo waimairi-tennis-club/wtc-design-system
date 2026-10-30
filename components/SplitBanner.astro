@@ -1,0 +1,28 @@
+---
+// A photo on one side and a blue block with a heading and button on the other, e.g. "Join the club!".
+//   <SplitBanner image="/racket.jpg" label="Enjoy tennis?" title="Join the club!" button={{ href: '/membership', text: 'Join now' }} />
+import Subtitle from './Subtitle.astro';
+import Button from './Button.astro';
+import './components.css';
+
+interface Props {
+  image: string;
+  title: string;
+  label?: string;
+  button?: { href: string; text: string };
+  /** Put the photo on the right instead. */
+  reverse?: boolean;
+  headingLevel?: 'h2' | 'h3';
+}
+const { image, title, label, button, reverse = false, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+<div class="wtc-split-banner">
+  <div class="wtc-split-banner__image" style={`background-image: url('${image}')${reverse ? '; order: 2' : ''}`} role="presentation"></div>
+  <div class="wtc-split-banner__block">
+    {label && <Subtitle tone="light">{label}</Subtitle>}
+    <Heading class="wtc-split-banner__title">{title}</Heading>
+    <slot />
+    {button && <Button href={button.href} color="white" hover="dark">{button.text}</Button>}
+  </div>
+</div>

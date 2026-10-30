@@ -1,0 +1,94 @@
+---
+// The white bar floating at the top of every page: logo, menu (with dropdowns) and a button at the end.
+// On tablets and phones the menu folds away behind the blue menu button.
+//   <Header />                                         the club's own menu and CONTACT button
+//   <Header menu={[{ label: 'Home', href: '/' }]} cta={{ href: '/join', text: 'Join' }} />
+import blueLogo from '../assets/logos/wtc-primary-blue500-logo.svg?url';
+import Icon from './Icon.astro';
+import Button from './Button.astro';
+import { wtcMenu, type NavItem } from './site-data';
+import './components.css';
+
+interface Props {
+  menu?: NavItem[];
+  cta?: { href: string; text: string } | null;
+  logoHref?: string;
+  logoAlt?: string;
+}
+const { menu = wtcMenu, cta = { href: '/contact', text: 'Contact' }, logoHref = '/', logoAlt = 'Waimairi Tennis Club home' } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = (href: string) => (href === path ? 'page' : undefined);
+// Unique per header, in case a page has more than one.
+const id = `wtc-menu-${Math.random().toString(36).slice(2, 7)}`;
+---
+<header class="wtc-header">
+  <div class="wtc-header__bar">
+    <a href={logoHref} class="wtc-header__brand"><img src={blueLogo} alt={logoAlt} /></a>
+    <div class="wtc-header__clip">
+      <nav class="wtc-header__menu" id={id} aria-label="Main">
+        {menu.map((item, i) =>
+          'children' in item ? (
+            <div class="wtc-header__dropdown">
+              <button type="button" class="wtc-header__toggle" aria-expanded="false" aria-controls={`${id}-${i}`}>{item.label}<Icon name="dropdown" /></button>
+              <div class="wtc-header__list" id={`${id}-${i}`}>
+                {item.children.map(link => <a href={link.href} aria-current={current(link.href)}>{link.label}</a>)}
+              </div>
+            </div>
+          ) : (
+            <a href={item.href} class="wtc-header__link" aria-current={current(item.href)}>{item.label}</a>
+          ),
+        )}
+        {cta && <Button href={cta.href} class="wtc-header__cta">{cta.text}</Button>}
+      </nav>
+    </div>
+    <button type="button" class="wtc-header__burger" aria-controls={id} aria-expanded="false" aria-label="Menu"><Icon name="menu" /><Icon name="close" /></button>
+  </div>
+</header>
+
+<script>
+  // Dropdowns, the phone menu, and the small lift when the page scrolls.
+  for (const header of document.querySelectorAll<HTMLElement>('.wtc-header')) {
+    const dropdowns = [...header.querySelectorAll<HTMLElement>('.wtc-header__dropdown')];
+    const burger = header.querySelector<HTMLButtonElement>('.wtc-header__burger');
+    const close = (except?: HTMLElement) => {
+      for (const d of dropdowns) {
+        if (d === except) continue;
+        d.classList.remove('is-open');
+        d.querySelector('.wtc-header__toggle')?.setAttribute('aria-expanded', 'false');
+      }
+    };
+    const setMenu = (open: boolean) => {
+      header.classList.toggle('is-menu-open', open);
+      burger?.setAttribute('aria-expanded', String(open));
+    };
+    for (const d of dropdowns) {
+      const toggle = d.querySelector<HTMLButtonElement>('.wtc-header__toggle')!;
+      toggle.addEventListener('click', () => {
+        const open = !d.classList.contains('is-open');
+        close(d);
+        d.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+      });
+    }
+    burger?.addEventListener('click', () => setMenu(!header.classList.contains('is-menu-open')));
+    document.addEventListener('click', e => {
+      const target = e.target as Element;
+      if (!target.closest('.wtc-header__dropdown')) close();
+      // Choosing a link closes everything (matters for links to a section of the same page).
+      if (header.contains(target) && target.closest('.wtc-header__menu a')) {
+        close();
+        setMenu(false);
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      const open = dropdowns.find(d => d.classList.contains('is-open'));
+      close();
+      open?.querySelector<HTMLElement>('.wtc-header__toggle')?.focus();
+      setMenu(false);
+    });
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

@@ -1,0 +1,23 @@
+---
+// A full-width band with one line of text and one button.
+//   <CtaStrip text="Grab a friend, pick a time, and book your court today!" button={{ href: '…', text: 'Book now' }} />
+//   <CtaStrip tone="teal" text="Hire our clubrooms for your next social event!" button={{ href: '/contact', text: 'Contact us' }} />
+import Button from './Button.astro';
+import './components.css';
+
+interface Props {
+  text: string;
+  button: { href: string; text: string };
+  /** dark (WTC blue 900, the default), teal or blue. */
+  tone?: 'dark' | 'teal' | 'blue';
+  headingLevel?: 'h2' | 'h3' | 'h5' | 'p';
+}
+const { text, button, tone = 'dark', headingLevel = 'h5' } = Astro.props;
+const Heading = headingLevel;
+---
+<div class="wtc-cta-strip" data-tone={tone}>
+  <div class="wtc-cta-strip__inner">
+    <Heading class="wtc-cta-strip__text">{text}</Heading>
+    <Button href={button.href} color="white" hover={tone === 'blue' ? 'dark' : 'blue'}>{button.text}</Button>
+  </div>
+</div>

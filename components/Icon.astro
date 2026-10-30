@@ -1,0 +1,33 @@
+---
+// An icon from assets/icons, drawn in the current text colour so it can be any colour.
+//   <Icon name="phone" />   sized by CSS (default 1em)
+import phone from '../assets/icons/phone-whit-icone.svg?raw';
+import email from '../assets/icons/email-white-icon.svg?raw';
+import calendar from '../assets/icons/calendar-wtc-blue-900.svg?raw';
+import location from '../assets/icons/marker-pin-3-blue-900-icon.svg?raw';
+import info from '../assets/icons/info-circle-wtc-blue-900.svg?raw';
+import payment from '../assets/icons/credit-card-wtc-blue-900.svg?raw';
+import instagram from '../assets/icons/instagram.svg?raw';
+import facebook from '../assets/icons/facebook-24-white.svg?raw';
+import linkedin from '../assets/icons/linkedin-24-white.svg?raw';
+import arrowUp from '../assets/icons/wtc-up-arrow-24-white-sharp.svg?raw';
+import dropdown from '../assets/icons/icon-dropdown.svg?raw';
+import menu from '../assets/icons/menu-wtc-blue-50-hambugrer.svg?raw';
+import close from '../assets/icons/menu-wtc-blue-50-close.svg?raw';
+
+const icons = { phone, email, calendar, location, info, payment, instagram, facebook, linkedin, 'arrow-up': arrowUp, dropdown, menu, close };
+export type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+const { name, class: extra } = Astro.props;
+// Swap the file's own colours for currentColor, drop its fixed size, and hide it from screen readers.
+const svg = icons[name]
+  .replace(/\s(fill|stroke)="(?!none)[^"]*"/g, ' $1="currentColor"')
+  .replace(/<svg([^>]*?)\swidth="[^"]*"/, '<svg$1')
+  .replace(/<svg([^>]*?)\sheight="[^"]*"/, '<svg$1')
+  .replace('<svg', `<svg class="wtc-icon${extra ? ` ${extra}` : ''}" aria-hidden="true" focusable="false"`);
+---
+<Fragment set:html={svg} />

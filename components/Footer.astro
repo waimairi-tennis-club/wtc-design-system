@@ -1,0 +1,47 @@
+---
+// The dark footer: logo and a few lines about the club, link columns, social buttons and the legal line.
+//   <Footer />                      the club's own footer
+//   <Footer columns={[…]} about={['…']} />
+import whiteLogo from '../assets/logos/wtc-white-logo.svg?url';
+import IconButton from './IconButton.astro';
+import { wtcFooter, type FooterColumn } from './site-data';
+import './components.css';
+
+interface Props {
+  about?: string[];
+  columns?: FooterColumn[];
+  /** Show the social buttons and legal line. Default true. */
+  bottom?: boolean;
+}
+const { about = wtcFooter.about, columns = wtcFooter.columns, bottom = true } = Astro.props;
+// The year updates whenever the site is rebuilt.
+const year = new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', year: 'numeric' }).format(new Date());
+const external = (href: string) => (/^https?:\/\//.test(href) ? { target: '_blank', rel: 'noopener' } : {});
+---
+<footer class="wtc-footer">
+  <div class="wtc-footer__inner">
+    <div class="wtc-footer__grid" style={`--_cols: ${columns.length}`}>
+      <div class="wtc-footer__about">
+        <a href="/" aria-label="Waimairi Tennis Club home"><img src={whiteLogo} alt="" class="wtc-footer__logo" /></a>
+        {about.map(line => <p>{line}</p>)}
+      </div>
+      {columns.map(col => (
+        <div class="wtc-footer__col">
+          {col.href ? <a href={col.href} class="wtc-footer__heading">{col.title}</a> : <div class="wtc-footer__heading">{col.title}</div>}
+          {col.links.map(l => <a href={l.href} {...external(l.href)}>{l.label}</a>)}
+        </div>
+      ))}
+    </div>
+    {bottom && (
+      <div class="wtc-footer__bottom">
+        <div class="wtc-footer__social">
+          {wtcFooter.social.map(s => <IconButton icon={s.icon} href={s.href} label={s.label} />)}
+        </div>
+        <div class="wtc-footer__legal">
+          {wtcFooter.legal.map(l => <a href={l.href}>{l.label}</a>)}
+          <span>© {year} Waimairi Tennis Club Incorporated · Registered charity <a href={wtcFooter.charityUrl} target="_blank" rel="noopener">CC42047</a></span>
+        </div>
+      </div>
+    )}
+  </div>
+</footer>

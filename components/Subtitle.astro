@@ -1,0 +1,12 @@
+---
+// The small "line + label" that sits above headings, e.g. "— JOIN US".
+//   <Subtitle>Join us</Subtitle>
+//   <Subtitle tone="light">Waimairi Tennis Club</Subtitle>   on photos and dark backgrounds
+import './components.css';
+
+interface Props {
+  tone?: 'dark' | 'light';
+}
+const { tone = 'dark' } = Astro.props;
+---
+<p class="wtc-subtitle" data-tone={tone}><slot /></p>
