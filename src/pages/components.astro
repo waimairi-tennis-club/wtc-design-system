@@ -1,6 +1,7 @@
 ---
 // Components: every component with live examples and how to use it.
 import Docs from '../layouts/Docs.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../../components/Button.astro';
 import IconButton from '../../components/IconButton.astro';
 import Avatar from '../../components/Avatar.astro';
@@ -30,7 +31,7 @@ const avatarSizes = [
   sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }]}
 >
   <section id="button">
-    <h2>Button</h2>
+    <SectionHeading label="Components" title="Button" />
     <p class="note">The club's main call to action: uppercase text with a small arrow. On hover the arrow slides away and the colour changes. Pick a resting <strong>color</strong> and a <strong>hover</strong> colour that stands out from the background.</p>
 
     <h3>On light backgrounds</h3>
@@ -67,7 +68,7 @@ const avatarSizes = [
   </section>
 
   <section id="icon-button">
-    <h2>Icon button</h2>
+    <SectionHeading label="Components" title="Icon button" />
     <p class="note">Square phone and email buttons, shown next to a contact's details.</p>
     <div class="demo light">
       <figure><IconButton icon="phone" href="#icon-button" label="Call" /><figcaption>phone</figcaption></figure>
@@ -82,7 +83,7 @@ const avatarSizes = [
   </section>
 
   <section id="avatar">
-    <h2>Avatar</h2>
+    <SectionHeading label="Components" title="Avatar" />
     <p class="note">A person's photo. Square, like the rest of the site. When there's no photo it shows their initials on a light blue tile, so nobody is left with a blank space or someone else's picture.</p>
 
     <h3>Sizes</h3>
@@ -119,12 +120,10 @@ const avatarSizes = [
     align-items: center;
     gap: var(--space-30);
     padding: var(--space-30);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background: var(--color-white);
+    background: var(--color-off-white);
     margin-bottom: var(--space-16);
   }
-  .demo.dark { background: var(--wtc-blue-900); border-color: var(--wtc-blue-900); }
+  .demo.dark { background: var(--wtc-blue-900); }
   .demo.dark figcaption { color: var(--wtc-steel-300); }
   .demo.bottom { align-items: flex-end; }
   .demo figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
@@ -134,7 +133,6 @@ const avatarSizes = [
     background: var(--wtc-blue-950);
     color: var(--wtc-blue-100);
     padding: var(--space-20);
-    border-radius: 8px;
     overflow-x: auto;
   }
   pre code { color: inherit; font-size: var(--text-14); }

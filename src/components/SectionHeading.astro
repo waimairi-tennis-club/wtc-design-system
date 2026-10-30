@@ -1,0 +1,12 @@
+---
+// A section heading the way the site does it: small "line + label" subtitle above a large heading.
+interface Props {
+  label: string;
+  title: string;
+}
+const { label, title } = Astro.props;
+---
+<div>
+  <div class="subtitle"><span class="line"></span>{label}</div>
+  <h2>{title}</h2>
+</div>

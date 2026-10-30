@@ -1,6 +1,7 @@
 ---
 // Foundations: logos, colours, type, spacing and icons, all read from tokens/ and assets/.
 import Docs from '../layouts/Docs.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import { palettes, group } from '../lib/tokens';
 
 const logos = import.meta.glob<string>('../../assets/logos/*.svg', { eager: true, query: '?url', import: 'default' });
@@ -35,7 +36,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
   sections={[{ id: 'logos', label: 'Logos' }, { id: 'colours', label: 'Colours' }, { id: 'type', label: 'Type' }, { id: 'spacing', label: 'Spacing' }, { id: 'icons', label: 'Icons' }]}
 >
       <section id="logos">
-        <h2>Logos</h2>
+        <SectionHeading label="Foundations" title="Logos" />
         <div class="grid logos">
           {Object.entries(logos).map(([path, url]) => (
             <figure class:list={['tile', { dark: onDark(path) }]}>
@@ -47,7 +48,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
       </section>
 
       <section id="colours">
-        <h2>Colours</h2>
+        <SectionHeading label="Foundations" title="Colours" />
         <h3>Brand ranges</h3>
         {Object.entries(palettes).map(([name, tokens]) => (
           <div class="palette">
@@ -87,7 +88,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
       </section>
 
       <section id="type">
-        <h2>Type</h2>
+        <SectionHeading label="Foundations" title="Type" />
         <p class="note">Barlow for everything (free, from Google Fonts).</p>
         <h3>Weights</h3>
         {weights.map(t => (
@@ -109,7 +110,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
       </section>
 
       <section id="spacing">
-        <h2>Spacing</h2>
+        <SectionHeading label="Foundations" title="Spacing" />
         {spacing.map(t => (
           <div class="space">
             <code>{t.name}</code>
@@ -119,7 +120,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
       </section>
 
       <section id="icons">
-        <h2>Icons</h2>
+        <SectionHeading label="Foundations" title="Icons" />
         <div class="grid icons">
           {Object.entries(icons).map(([path, url]) => (
             <figure class:list={['tile', { dark: onDark(path) }]}>
@@ -147,10 +148,10 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
   .palette { margin-bottom: var(--space-24); }
   .swatches { display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--space-6); }
   .swatch { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
-  .swatch .chip { height: 56px; border-radius: 6px; }
+  .swatch .chip { height: 56px; }
   .swatch span, .role span { font-size: var(--text-12); color: var(--color-info-text); overflow-wrap: anywhere; }
   .role { display: flex; gap: var(--space-12); align-items: center; }
-  .role .chip { width: 48px; height: 48px; border-radius: 6px; flex-shrink: 0; border: 1px solid var(--color-border); }
+  .role .chip { width: 48px; height: 48px; flex-shrink: 0; }
   .role div:last-child { display: flex; flex-direction: column; min-width: 0; }
   .chip { box-shadow: inset 0 0 0 1px rgb(0 0 0 / 6%); }
 
@@ -159,7 +160,7 @@ const leading = group('Type').filter(t => t.name.startsWith('--leading'));
   .sample code, .size code { margin-left: var(--space-12); }
 
   .space { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: var(--space-12); margin-bottom: var(--space-6); }
-  .bar { height: 14px; background: var(--color-accent); border-radius: 2px; }
+  .bar { height: 14px; background: var(--color-accent); }
 
   @media (max-width: 767px) {
     .swatches { grid-template-columns: repeat(6, 1fr); }
