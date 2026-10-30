@@ -39,10 +39,12 @@
 .wtc-button[data-size='small'] { padding: 14px 18px; font-size: var(--text-12); }
 .wtc-button[data-full] { display: flex; width: 100%; }
 
-/* Some buttons change weight on hover. A hidden copy of the words at the hover weight keeps the width steady. */
+/* Some buttons change weight on hover. The width comes from a hidden copy of the words at the hover weight
+   (as on the Webflow site), so the button doesn't change size when hovered. */
 .wtc-button__text { display: inline-grid; }
 .wtc-button__text > span,
 .wtc-button__text::after { grid-area: 1 / 1; }
+.wtc-button__text > span { width: 0; min-width: 100%; white-space: nowrap; }
 .wtc-button__text::after { content: attr(data-text); font-weight: var(--weight-medium); height: 0; overflow: hidden; visibility: hidden; }
 .wtc-button[data-hover='white'] .wtc-button__text::after { font-weight: var(--weight-semibold); }
 
