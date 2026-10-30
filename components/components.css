@@ -12,7 +12,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-8);
-  padding: 23px 35px;
+  /* 29px sides: matches the site, where the arrow sits inside the padding */
+  padding: 23px 29px;
   border: 0;
   background: var(--_bg);
   color: var(--_fg);
@@ -33,14 +34,15 @@
 .wtc-button[data-hover='blue']:is(:hover, :focus-visible) { --_bg: var(--wtc-blue-500); --_fg: var(--color-white); font-weight: var(--weight-medium); }
 .wtc-button[data-hover='dark']:is(:hover, :focus-visible) { --_bg: var(--wtc-blue-900); --_fg: var(--color-white); font-weight: var(--weight-medium); }
 .wtc-button[data-hover='white']:is(:hover, :focus-visible) { --_bg: var(--color-white); --_fg: var(--wtc-blue-900); font-weight: var(--weight-semibold); }
-.wtc-button[data-size='small'] { padding: 14px 22px; font-size: var(--text-12); }
+.wtc-button[data-size='small'] { padding: 14px 18px; font-size: var(--text-12); }
 .wtc-button[data-full] { display: flex; width: 100%; }
 
-/* Some buttons change weight on hover. A hidden semibold copy of the words keeps the width steady. */
+/* Some buttons change weight on hover. A hidden copy of the words at the hover weight keeps the width steady. */
 .wtc-button__text { display: inline-grid; }
 .wtc-button__text > span,
 .wtc-button__text::after { grid-area: 1 / 1; }
-.wtc-button__text::after { content: attr(data-text); font-weight: var(--weight-semibold); height: 0; overflow: hidden; visibility: hidden; }
+.wtc-button__text::after { content: attr(data-text); font-weight: var(--weight-medium); height: 0; overflow: hidden; visibility: hidden; }
+.wtc-button[data-hover='white'] .wtc-button__text::after { font-weight: var(--weight-semibold); }
 
 /* On hover the arrow slides right and fades, and the text nudges right */
 .wtc-button__text,
