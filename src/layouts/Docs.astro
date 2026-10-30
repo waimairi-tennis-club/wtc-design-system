@@ -49,6 +49,10 @@ const pages = [
 <style is:global>
   * { box-sizing: border-box; }
   html { scroll-padding-top: 120px; }
+  /* Jump buttons glide down to their section (unless the visitor has asked for less motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
   body {
     margin: 0;
     padding: 10px;
