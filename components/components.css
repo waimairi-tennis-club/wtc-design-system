@@ -11,9 +11,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-8);
-  /* 29px sides: matches the site, where the arrow sits inside the padding */
-  padding: 23px 29px;
+  /* Sized to its words, even where a layout would stretch it (use data-full for full width) */
+  width: fit-content;
+  /* Measured from www.wtc.co.nz: 26px sides, 14px between the words and the arrow */
+  gap: var(--space-14);
+  padding: 23px 26px;
   border: 0;
   background: var(--_bg);
   color: var(--_fg);
