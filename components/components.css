@@ -45,7 +45,7 @@
 .wtc-button__text > span,
 .wtc-button__text::after { grid-area: 1 / 1; }
 .wtc-button__text > span { width: 0; min-width: 100%; white-space: nowrap; }
-.wtc-button__text::after { content: attr(data-text); font-weight: var(--weight-medium); white-space: nowrap; height: 0; overflow: hidden; visibility: hidden; }
+.wtc-button__text::after { content: attr(data-text); font-weight: var(--weight-medium); white-space: nowrap; height: 0; visibility: hidden; }
 .wtc-button[data-hover='white'] .wtc-button__text::after { font-weight: var(--weight-semibold); }
 
 /* On hover the arrow slides right and fades, and the text nudges right */
