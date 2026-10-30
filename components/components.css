@@ -515,6 +515,13 @@
   .wtc-footer__legal { color: var(--color-light); }
 }
 
+/* ---------- Living alongside other styles ----------
+   Sites often colour every link on hover (a:hover). Keep the components' own colours. */
+.wtc-button:is(:hover, :focus-visible),
+.wtc-icon-button:is(:hover, :focus-visible) { color: var(--_fg, var(--color-white)); text-decoration: none; }
+.wtc-icon-button[data-color='white']:is(:hover, :focus-visible) { color: var(--wtc-blue-500); }
+.wtc-news-card:hover, .wtc-card-image:hover, .wtc-sponsor:hover { text-decoration: none; }
+
 /* ---------- Helpers ---------- */
 /* Hidden on screen, still read by screen readers. */
 .wtc-visually-hidden {
