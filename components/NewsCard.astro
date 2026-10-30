@@ -1,0 +1,30 @@
+---
+// A news post in a list. The whole card is one link. Made for white backgrounds (the body is pale grey).
+//   <NewsCard href="/news/olive-oil" title="Olive Oil Fundraiser" date="29 October 2026" summary="…" image="/olive.webp" />
+import './components.css';
+
+interface Props {
+  href: string;
+  title: string;
+  /** Already written out, e.g. "29 October 2026". */
+  date?: string;
+  summary?: string;
+  image?: string;
+  imageAlt?: string;
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  [attr: `data-${string}`]: string | undefined;
+}
+const { href, title, date, summary, image, imageAlt = '', headingLevel = 'h3', ...rest } = Astro.props;
+const Heading = headingLevel;
+const hasImageSlot = Astro.slots.has('image');
+---
+<a href={href} class="wtc-news-card" {...rest}>
+  {(image || hasImageSlot) && (
+    <div class="wtc-card-image"><slot name="image">{image && <img src={image} alt={imageAlt} loading="lazy" />}</slot></div>
+  )}
+  <div class="wtc-news-card__body">
+    {date && <p class="wtc-card-meta">{date}</p>}
+    <Heading class="wtc-news-card__title">{title}</Heading>
+    {summary && <p class="wtc-card-summary">{summary}</p>}
+  </div>
+</a>

@@ -1,0 +1,36 @@
+---
+// A membership option: name, who it's for, price and join button on the left, what's included (the slot) on the right.
+// With no join link it shows the "opening soon" bar instead.
+//   <MembershipCard name="Family" intro="2 adults and 2 kids" price="999" join={{ href: '…', text: 'Join now' }}>
+//     <ul><li>Use of all courts</li></ul>
+//   </MembershipCard>
+import Button from './Button.astro';
+import './components.css';
+
+interface Props {
+  name: string;
+  intro?: string;
+  /** Number only, e.g. "999". The $ is added. */
+  price?: string;
+  join?: { href: string; text?: string };
+  /** Shown in a dark bar under the card when there's no join link, e.g. "Family membership opens soon". */
+  openingSoon?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { name, intro, price, join, openingSoon, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+<div class="wtc-membership">
+  <div class="wtc-membership__main">
+    <div class="wtc-membership__left">
+      <div>
+        <Heading class="wtc-membership__name">{name}</Heading>
+        {intro && <div class="wtc-membership__intro">{intro}</div>}
+      </div>
+      {price && <div class="wtc-membership__price">${price}</div>}
+      {join && <Button href={join.href}>{join.text ?? 'Join now'}</Button>}
+    </div>
+    <div class="wtc-membership__details"><slot /></div>
+  </div>
+  {!join && openingSoon && <div class="wtc-membership__soon">{openingSoon}</div>}
+</div>

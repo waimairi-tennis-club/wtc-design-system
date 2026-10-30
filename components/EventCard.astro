@@ -1,0 +1,53 @@
+---
+// An event in a list: image, date line, title, summary, then the entry button and MORE INFO.
+// Made for grey backgrounds (the body is white).
+//   <EventCard href="/events/club-champs" title="Club Champs" when="Sat, 21 November 2026" summary="…"
+//              image="/club-champs.jpg" entry={{ href: 'https://…', text: 'Enter now' }} countdown="5 days left to enter" />
+// To use a different image component (e.g. Astro's <Image>), pass it in the "image" slot.
+// To control the buttons yourself, pass them in the "actions" slot.
+import Button from './Button.astro';
+import './components.css';
+
+interface Props {
+  href: string;
+  title: string;
+  /** The date line, already written out, e.g. "Wed, 9 December 2026, 6:00 pm — 8:00 pm". */
+  when: string;
+  summary?: string;
+  image?: string;
+  imageAlt?: string;
+  /** Orange line under the summary, e.g. "5 days left to enter". */
+  countdown?: string;
+  /** Shows the orange "Entries are now closed" box. */
+  closed?: boolean;
+  /** The entry or RSVP button. */
+  entry?: { href: string; text?: string };
+  /** Shows the MORE INFO button. Default true. */
+  moreInfo?: boolean;
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  [attr: `data-${string}`]: string | undefined;
+}
+const { href, title, when, summary, image, imageAlt = '', countdown, closed = false, entry, moreInfo = true, headingLevel = 'h4', ...rest } = Astro.props;
+const Heading = headingLevel;
+const hasImageSlot = Astro.slots.has('image');
+---
+<article class="wtc-event-card" {...rest}>
+  {(image || hasImageSlot) && (
+    <a href={href} class="wtc-card-image" aria-label={title} tabindex="-1">
+      <slot name="image">{image && <img src={image} alt={imageAlt} loading="lazy" />}</slot>
+    </a>
+  )}
+  <div class="wtc-event-card__body">
+    <p class="wtc-card-meta">{when}</p>
+    <Heading class="wtc-event-card__title">{title}</Heading>
+    {summary && <p class="wtc-card-summary">{summary}</p>}
+    {countdown && !closed && <div class="wtc-event-card__countdown">{countdown}</div>}
+    <div class="wtc-event-card__actions">
+      <slot name="actions">
+        {closed && <div class="wtc-notice">Entries are now closed</div>}
+        {entry && !closed && <Button href={entry.href}>{entry.text ?? 'Enter now'}</Button>}
+        {moreInfo && <Button href={href} color="dark" hover="blue" srText={`about ${title}`}>More info</Button>}
+      </slot>
+    </div>
+  </div>
+</article>

@@ -5,6 +5,10 @@ import SectionHeading from '../components/SectionHeading.astro';
 import Button from '../../components/Button.astro';
 import IconButton from '../../components/IconButton.astro';
 import Avatar from '../../components/Avatar.astro';
+import EventCard from '../../components/EventCard.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import PersonCard from '../../components/PersonCard.astro';
+import MembershipCard from '../../components/MembershipCard.astro';
 
 const colours = ['blue', 'dark', 'white'] as const;
 const buttonsOnLight = [
@@ -28,7 +32,7 @@ const avatarSizes = [
 <Docs
   title="Components"
   intro="The building blocks the website is made from. Hover over them to see them move. Each one is plain HTML and CSS underneath (<code>components/components.css</code>), so it works anywhere."
-  sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }]}
+  sections={[{ id: 'button', label: 'Button' }, { id: 'icon-button', label: 'Icon button' }, { id: 'avatar', label: 'Avatar' }, { id: 'event-card', label: 'Event card' }, { id: 'news-card', label: 'News card' }, { id: 'person-card', label: 'Person card' }, { id: 'membership-card', label: 'Membership card' }]}
 >
   <section id="button">
     <SectionHeading label="Components" title="Button" />
@@ -111,6 +115,80 @@ const avatarSizes = [
     <pre><code>{`<Avatar name="Cassandra Hinton" src={photo} size="sm" />
 <Avatar name="Cassandra Hinton" />   <!-- initials -->`}</code></pre>
   </section>
+
+  <section id="event-card">
+    <SectionHeading label="Components" title="Event card" />
+    <p class="note">An event in a list. Made for grey backgrounds: the text sits in a white box. The buttons change with the event: an entry or RSVP button, an orange countdown while entries are open, an orange "closed" box once they shut, and MORE INFO when the event has its own page.</p>
+    <div class="cards grey">
+      <EventCard href="#event-card" title="Senior Members Christmas Party" when="Wed, 9 December 2026, 6:00 pm — 8:00 pm" summary="Join us to celebrate Christmas and the first half of the 2026/27 tennis season." image="/examples/christmas-party.webp" entry={{ href: '#event-card', text: 'RSVP' }} moreInfo={false} />
+      <EventCard href="#event-card" title="Matariki Masters Tournament" when="Fri, 10 July 2026 — Sun, 12 July 2026" summary="Presented by Waimairi Tennis Club and Davis Ogilvie, we are delighted to be part of the 2026 Masters Tournament Calendar." image="/examples/matariki.avif" entry={{ href: '#event-card', text: 'Enter now' }} countdown="5 days left to enter" />
+      <EventCard href="#event-card" title="Senior Doubles Club Champs" when="Wed, 16 September 2026 — Sun, 22 November 2026" summary="Our annual Senior Doubles Club Champs. Entries close 15 September, with finals on Friday 20 or Sunday 22 November 2026." closed />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<EventCard href="/events/christmas-party" title="Senior Members Christmas Party"
+  when="Wed, 9 December 2026, 6:00 pm — 8:00 pm" summary="…" image="/party.webp"
+  entry={{ href: 'https://forms.gle/…', text: 'RSVP' }} countdown="5 days left to enter" />`}</code></pre>
+  </section>
+
+  <section id="news-card">
+    <SectionHeading label="Components" title="News card" />
+    <p class="note">A news post in a list. Made for white backgrounds: the text sits in a pale grey box. The whole card is one link, and the photo zooms in slightly on hover.</p>
+    <div class="cards">
+      <NewsCard href="#news-card" title="Olive Oil Fundraiser 2026" date="29 October 2026" summary="Village Press olive oil packs, $35 for 3 x 250ml bottles. Order by 23 November." image="/examples/olive-oil.webp" />
+      <NewsCard href="#news-card" title="2026/27 Season Open Day" date="19 September 2026" summary="Join us for our 2026/27 Season Opening Day on Saturday September 19th." image="/examples/open-day.avif" />
+      <NewsCard href="#news-card" title="Re-string with Rhys" date="18 May 2026" summary="Drop off and pick up at WTC. Approx 24-hour turnaround. A range of strings available." image="/examples/restring.avif" />
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<NewsCard href="/news/olive-oil-fundraiser-2026" title="Olive Oil Fundraiser 2026"
+  date="29 October 2026" summary="…" image="/olive-oil.webp" />`}</code></pre>
+  </section>
+
+  <section id="person-card">
+    <SectionHeading label="Components" title="Person card" />
+    <p class="note">A person, built from the Avatar and Icon button. Four layouts: contact details on dark or light backgrounds, a coach in a grid, and a featured coach with a bio. With no photo, the initials show instead.</p>
+    <h3>Contact</h3>
+    <div class="demo dark top">
+      <PersonCard variant="contact" name="Cassandra Hinton" role="Club manager" phone="021 0223 7650" email="admin@wtc.co.nz" />
+      <PersonCard variant="contact" name="Rhys" role="Head coach" photo="/examples/rhys-picture.avif" phone="03 355 9611" email="headcoach@wtc.co.nz" />
+    </div>
+    <div class="demo light top">
+      <PersonCard variant="contact-light" name="Cassandra Hinton" phone="021 0223 7650" email="admin@wtc.co.nz" />
+    </div>
+    <h3>Coaches</h3>
+    <div class="demo white top">
+      <div class="coach-feature">
+        <PersonCard variant="coach-featured" name="Rhys" role="Head coach" photo="/examples/rhys-picture.avif" phone="03 355 9611" email="headcoach@wtc.co.nz" button={{ href: '#person-card', text: 'Book a lesson' }}>
+          <p>A short bio goes here: experience, qualifications and what they coach.</p>
+        </PersonCard>
+      </div>
+      <div class="coach-grid">
+        <PersonCard variant="coach" name="Rhys" role="Head coach" photo="/examples/rhys-picture.avif" />
+        <PersonCard variant="coach" name="New Coach" role="Coach" />
+        <PersonCard variant="coach" name="Daiki" role="Coach" />
+      </div>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<PersonCard variant="contact" name="Cassandra Hinton" role="Club manager"
+  phone="021 0223 7650" email="admin@wtc.co.nz" photo={photo} />`}</code></pre>
+  </section>
+
+  <section id="membership-card">
+    <SectionHeading label="Components" title="Membership card" />
+    <p class="note">A membership option, as on the Membership page. Without a join link it shows a dark "opening soon" bar instead of the button.</p>
+    <div class="stack">
+      <MembershipCard name="Family" intro="1 adult and 3 kids, or 2 adults and 2 kids" price="999" join={{ href: '#membership-card', text: 'Family membership registration' }}>
+        <ul><li>2026/27 season.</li><li>Use of all courts.</li><li>Social organised play all year.</li><li>Children must be under 18 years.</li></ul>
+      </MembershipCard>
+      <MembershipCard name="Hot Shots Red Ball" intro="Most suited for kids 5 – 8 years" price="215" openingSoon="HotShots Red Ball membership will be opening soon">
+        <ul><li>Registration is for Terms 4 2026 and Term 1 2027.</li><li>Sessions are weekdays, Monday to Thursday at 3:40pm.</li></ul>
+      </MembershipCard>
+    </div>
+    <h4>Use it</h4>
+    <pre><code>{`<MembershipCard name="Family" intro="2 adults and 2 kids" price="999"
+  join={{ href: 'https://…', text: 'Join now' }}>
+  <ul><li>Use of all courts</li></ul>
+</MembershipCard>`}</code></pre>
+  </section>
 </Docs>
 
 <style>
@@ -126,6 +204,20 @@ const avatarSizes = [
   .demo.dark { background: var(--wtc-blue-900); }
   .demo.dark figcaption { color: var(--wtc-steel-300); }
   .demo.bottom { align-items: flex-end; }
+  .demo.top { align-items: flex-start; gap: var(--space-60); }
+  .demo.white { background: var(--color-white); padding: 0; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-20); margin-bottom: var(--space-16); }
+  .cards.grey { background: var(--wtc-steel-200); padding: var(--space-30); }
+  .stack { display: flex; flex-direction: column; gap: var(--space-40); margin-bottom: var(--space-16); }
+  .coach-feature { flex: 0 1 360px; }
+  .coach-grid { flex: 1 1 360px; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-40); }
+  @media (max-width: 991px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 767px) {
+    .cards { grid-template-columns: 1fr; }
+    .cards.grey { padding: var(--space-16); }
+  }
   .demo figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-10); }
   .demo figure.wide { flex: 1 1 260px; align-items: stretch; }
   .demo figcaption { font-family: ui-monospace, monospace; line-height: 1.5; }

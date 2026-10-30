@@ -8,8 +8,8 @@ interface Props {
   name: string;
   /** Photo address. Leave out to show initials. */
   src?: string;
-  /** xs 40px, sm 90px (contacts), md 120px, lg 160px (coach grid), xl 220px (featured coach). */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  /** xs 40px, sm 90px (contacts), md 120px, lg 160px, xl 220px (featured coach), fill = the width of its column (coach grid). */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'fill';
   shape?: 'square' | 'round';
   /** Set when the name is already written next to the photo, so screen readers don't read it twice. */
   decorative?: boolean;
