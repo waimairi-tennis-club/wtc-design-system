@@ -25,9 +25,11 @@ const { href, color = 'blue', size = 'normal', full = false, srText, type = 'but
 const hover = Astro.props.hover ?? (color === 'blue' ? 'dark' : 'blue');
 const external = Astro.props.external ?? (!!href && /^https?:\/\//.test(href));
 const Tag = href ? 'a' : 'button';
+// The words, without any markup, so the button can reserve room for its bold hover state (see components.css).
+const words = (await Astro.slots.render('default')).replace(/<[^>]*>/g, '').trim();
 const attrs = href ? { href, ...(external ? { target: '_blank', rel: 'noopener' } : {}) } : { type };
 ---
 <Tag class:list={['wtc-button', extra]} data-color={color} data-hover={hover} data-size={size === 'small' ? 'small' : undefined} data-full={full || undefined} {...attrs}>
-  <span class="wtc-button__text"><slot /></span>{srText && <span class="wtc-visually-hidden"> {srText}</span>}
+  <span class="wtc-button__text" data-text={words}><span><slot /></span></span>{srText && <span class="wtc-visually-hidden"> {srText}</span>}
   <svg class="wtc-button__arrow" viewBox="0 0 4 8" aria-hidden="true"><path d="M4 4 0 8V0z" fill="currentColor" /></svg>
 </Tag>

@@ -6,6 +6,8 @@
   "description": "Waimairi Tennis Club design system: logos, colours, type, icons and components",
   "exports": {
     "./tokens.css": "./tokens/tokens.css",
+    "./components.css": "./components/components.css",
+    "./components/*": "./components/*",
     "./logos/*": "./assets/logos/*",
     "./icons/*": "./assets/icons/*"
   },
@@ -14,10 +16,11 @@
     "build": "astro build",
     "preview": "astro preview"
   },
-  "dependencies": {
-    "astro": "7.3.8"
-  },
   "devDependencies": {
+    "astro": "7.3.8",
     "wrangler": "4.149.0"
+  },
+  "peerDependencies": {
+    "astro": ">=7"
   }
 }
