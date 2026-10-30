@@ -1,0 +1,23 @@
+{
+  "name": "@waimairi-tennis-club/design-system",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Waimairi Tennis Club design system: logos, colours, type, icons and components",
+  "exports": {
+    "./tokens.css": "./tokens/tokens.css",
+    "./logos/*": "./assets/logos/*",
+    "./icons/*": "./assets/icons/*"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "7.3.8"
+  },
+  "devDependencies": {
+    "wrangler": "4.149.0"
+  }
+}

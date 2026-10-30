@@ -1,0 +1,117 @@
+/* Design tokens: change a value here and it changes everywhere.
+   Colour and type tokens come from the Webflow site's variables.
+   Spacing and text sizes are the values the site already used, named by their size in px. */
+:root {
+  /* Brand colours (primitives) */
+  --wtc-blue-50: #ecf4fe;
+  --wtc-blue-100: #cee3fd;
+  --wtc-blue-200: #94c2fa;
+  --wtc-blue-300: #5aa0f7;
+  --wtc-blue-400: #1f7ff4;
+  --wtc-blue-500: #0a61cc;
+  --wtc-blue-600: #084fa5;
+  --wtc-blue-700: #063a7a;
+  --wtc-blue-800: #042753;
+  --wtc-blue-900: #021327;
+  --wtc-blue-950: #010913;
+  --wtc-steel-50: #f6f7f8;
+  --wtc-steel-100: #eeeef2;
+  --wtc-steel-200: #dcdde4;
+  --wtc-steel-300: #cbccd7;
+  --wtc-steel-400: #babbca;
+  --wtc-steel-500: #a8aabc;
+  --wtc-steel-600: #80839d;
+  --wtc-steel-700: #5d6079;
+  --wtc-steel-800: #3e4051;
+  --wtc-steel-900: #1f2028;
+  --wtc-steel-950: #101014;
+  --wtc-teal-50: #eaf0f0;
+  --wtc-teal-100: #d6e6e6;
+  --wtc-teal-200: #a6d3d2;
+  --wtc-teal-300: #72c5c3;
+  --wtc-teal-400: #3db3af;
+  --wtc-teal-500: #238c88;
+  --wtc-teal-600: #236764;
+  --wtc-teal-700: #1f4c4b;
+  --wtc-teal-800: #18302f;
+  --wtc-teal-900: #0d1616;
+  --wtc-teal-950: #070909;
+
+  /* HotShots colours */
+  --hotshots-blue-dark: color-mix(in srgb, var(--hotshots-blue), black 10%);
+  --hotshots-red-dark: color-mix(in srgb, var(--hotshots-red), black 10%);
+  --hotshots-orange-dark: color-mix(in srgb, var(--hotshots-orange), black 10%);
+  --hotshots-green-dark: color-mix(in srgb, var(--hotshots-green), black 10%);
+  --hotshots-blue: #096cfe;
+  --hotshots-orange: #ff8000;
+  --hotshots-red: #fe0059;
+  --hotshots-green: #40bc1e;
+
+  /* Colour roles */
+  --color-off-white: var(--wtc-steel-50);
+  --color-text: var(--wtc-steel-800);
+  --color-heading: var(--wtc-blue-900);
+  --color-accent: var(--wtc-blue-500);
+  --color-light: var(--wtc-steel-50);
+  --color-text-on-dark: var(--wtc-steel-200);
+  --color-white: white;
+  --color-nav-expanded: color-mix(in srgb, var(--wtc-steel-50), black 7%);
+  --color-background: var(--wtc-steel-200);
+  --color-unused-pink: #b36faf;
+  --color-info-text: var(--wtc-steel-600);
+  --color-alert: #da5b00;
+  --color-dark-blue: #07326a;
+  --color-border: var(--wtc-steel-300);
+
+  /* Type */
+  --leading-large: 165%;
+  --weight-normal: 400;
+  --font-heading: var(--font-barlow), sans-serif;
+  --leading-small: 110%;
+  --weight-medium: 500;
+  --leading-medium: 140%;
+  --font-body: var(--font-barlow), sans-serif;
+  --weight-semibold: 600;
+
+  /* Spacing */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-30: 30px;
+  --space-40: 40px;
+  --space-50: 50px;
+  --space-60: 60px;
+  --space-70: 70px;
+  --space-80: 80px;
+  --space-100: 100px;
+
+  /* Text sizes */
+  --text-12: 12px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17: 17px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-22: 22px;
+  --text-24: 24px;
+  --text-26: 26px;
+  --text-30: 30px;
+  --text-32: 32px;
+  --text-36: 36px;
+  --text-40: 40px;
+  --text-48: 48px;
+
+  /* Breakpoints (for reference; CSS can't use variables in media queries)
+     tablet:   max-width 991px
+     mobile landscape: max-width 767px
+     mobile:   max-width 479px */
+}
