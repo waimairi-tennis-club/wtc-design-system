@@ -72,17 +72,16 @@ const pages = [
   .wtc-page-hero code { color: var(--wtc-blue-200); font-size: inherit; }
 
   /* Page blocks: white sections on the pale frame */
+  /* The side padding grows on wide screens so everything inside sits in the same 1200px column */
   main > section {
     background: var(--color-white);
     margin-bottom: 10px;
-    padding: 90px var(--space-30);
+    padding: 90px max(var(--space-30), calc((100% - 1200px) / 2));
   }
-  main > section > * { max-width: 1200px; margin-inline: auto; }
   main h2 { font-size: var(--text-48); margin-block: var(--space-12) var(--space-20); }
   main h3 { font-size: var(--text-26); letter-spacing: -0.5px; margin-block: var(--space-50) var(--space-16); }
   main h4 { font-size: var(--text-18); font-weight: var(--weight-semibold); margin-block: var(--space-30) var(--space-10); }
   main p { max-width: 680px; }
-  main > section > .note { max-width: 1200px; }
   .note { margin-bottom: var(--space-20); }
   .note > * { max-width: 680px; }
 
