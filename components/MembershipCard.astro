@@ -16,18 +16,19 @@ interface Props {
   /** Shown in a dark bar under the card when there's no join link, e.g. "Family membership opens soon". */
   openingSoon?: string;
   headingLevel?: 'h2' | 'h3';
+  class?: string;
 }
-const { name, intro, price, join, openingSoon, headingLevel = 'h2' } = Astro.props;
+const { name, intro, price, join, openingSoon, headingLevel = 'h2', class: extra } = Astro.props;
 const Heading = headingLevel;
 ---
-<div class="wtc-membership">
+<div class:list={['wtc-membership', extra]}>
   <div class="wtc-membership__main">
     <div class="wtc-membership__left">
       <div>
         <Heading class="wtc-membership__name">{name}</Heading>
         {intro && <div class="wtc-membership__intro">{intro}</div>}
       </div>
-      {price && <div class="wtc-membership__price">${price}</div>}
+      {price && <div class="wtc-membership__price"><span>$</span><span>{price}</span></div>}
       {join && <Button href={join.href}>{join.text ?? 'Join now'}</Button>}
     </div>
     <div class="wtc-membership__details"><slot /></div>

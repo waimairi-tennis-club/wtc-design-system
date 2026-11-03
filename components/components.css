@@ -70,7 +70,9 @@
 }
 .wtc-icon-button:is(:hover, :focus-visible) { background: var(--wtc-blue-600); }
 .wtc-icon-button[data-color='white'] { background: var(--color-white); color: var(--wtc-blue-500); }
-.wtc-icon-button[data-color='white']:is(:hover, :focus-visible) { background: var(--wtc-blue-50); }
+.wtc-icon-button[data-color='white']:is(:hover, :focus-visible) { background: var(--color-white); }
+.wtc-icon-button .wtc-icon { transition: transform 250ms ease; }
+.wtc-icon-button:hover .wtc-icon { transform: scale(1.1); }
 .wtc-icon-button svg { width: 20px; height: 20px; }
 
 /* ---------- Avatar ----------
@@ -192,28 +194,46 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
 }
 
 /* ---------- Person card ----------
-   contact / contact-light: small photo with phone and email. coach: photo, name, role. coach-featured: bigger, with bio. */
-.wtc-person { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); font-family: var(--font-body); }
-.wtc-person__name { margin: var(--space-8) 0 var(--space-2); font-family: var(--font-heading); font-size: var(--text-22); line-height: 120%; font-weight: var(--weight-semibold); color: var(--color-heading); }
-.wtc-person__role {
-  margin: 0 0 var(--space-4);
-  font-size: var(--text-14);
-  line-height: 120%;
-  font-weight: var(--weight-semibold);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--color-heading);
-}
+   contact / contact-light: small photo with phone and email. coach: photo, name, role. coach-featured: bigger, with bio.
+   contact is for dark backgrounds (white text); contact-light takes its text colour from the background. */
+.wtc-person { font-family: var(--font-body); }
+.wtc-person[data-variant^='contact'] { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); margin: var(--space-14) 0 var(--space-20); }
+.wtc-person[data-variant^='contact'] .wtc-person__photo img { display: block; }
+.wtc-person__photo img { width: 90px; max-width: none; }
+.wtc-person__photo[data-size='xl'] img { width: 220px; }
+.wtc-person__photo[data-size='fill'] img { width: 100%; }
+/* The fallback avatar sits on its own line, with no gap under it */
+.wtc-person__photo > .wtc-avatar { display: grid; }
+.wtc-person__name { margin: 0 0 var(--space-2); font-family: var(--font-heading); font-size: var(--text-22); line-height: 120%; font-weight: var(--weight-semibold); letter-spacing: 0.13px; }
+.wtc-person[data-variant='contact'] .wtc-person__name { color: var(--color-white); line-height: var(--leading-medium); font-weight: var(--weight-medium); letter-spacing: 0.2px; margin-bottom: 0; }
+.wtc-person[data-variant^='coach'] .wtc-person__name { margin: var(--space-20) 0 var(--space-6); font-size: 28px; line-height: var(--leading-small); font-weight: var(--weight-medium); letter-spacing: -1.4px; color: var(--color-heading); }
+.wtc-person[data-variant='coach'] .wtc-person__name { margin-top: var(--space-16); letter-spacing: -0.2px; }
+.wtc-person__role { margin: 0; font-size: var(--text-14); line-height: 120%; font-weight: var(--weight-semibold); letter-spacing: 1px; text-transform: uppercase; color: var(--color-info-text); }
+.wtc-person__role[data-tone='heading'] { color: var(--color-heading); line-height: var(--leading-small); margin-bottom: var(--space-4); }
+.wtc-person__role[data-tone='light'] { color: var(--color-white); }
+.wtc-person__role[data-tone='muted'] { margin-bottom: var(--space-4); }
+.wtc-person__lines { margin: var(--space-12) 0 var(--space-16); }
 .wtc-person__line { display: flex; align-items: center; gap: var(--space-10); margin-top: var(--space-8); }
-.wtc-person__line a:last-child { color: var(--color-text); text-decoration: none; }
-.wtc-person__line a:last-child:hover { color: var(--wtc-blue-500); }
-.wtc-person[data-variant='contact'] .wtc-person__name { color: var(--color-white); font-weight: var(--weight-medium); line-height: var(--leading-medium); margin-bottom: 0; }
-.wtc-person[data-variant='contact'] .wtc-person__role { color: var(--wtc-steel-300); }
-.wtc-person[data-variant='contact'] .wtc-person__line a:last-child { color: var(--color-white); }
-.wtc-person[data-variant^='coach'] .wtc-person__name { font-size: 28px; font-weight: var(--weight-medium); letter-spacing: -0.5px; margin: var(--space-14) 0 var(--space-6); }
-.wtc-person__bio { margin-top: var(--space-16); max-width: 520px; }
-.wtc-person__bio > :first-child { margin-top: 0; }
-.wtc-person__actions { margin-top: var(--space-20); }
+.wtc-person__line > a:last-child { font-family: var(--font-body); font-size: var(--text-18); line-height: 120%; font-weight: var(--weight-normal); color: var(--color-text); text-decoration: none; }
+.wtc-person__line > a:last-child:hover { color: var(--wtc-blue-500); }
+.wtc-person[data-variant='contact'] .wtc-person__line > a:last-child { color: var(--color-white); line-height: var(--leading-small); }
+.wtc-person__actions { display: flex; margin-top: 13px; }
+@media (max-width: 991px) {
+  .wtc-person[data-variant^='coach'] .wtc-person__name { font-size: var(--text-26); }
+}
+@media (max-width: 767px) {
+  .wtc-person[data-variant^='coach'] .wtc-person__name { font-size: var(--text-24); }
+  .wtc-person__role { letter-spacing: 0.5px; }
+}
+@media (max-width: 479px) {
+  .wtc-person[data-variant^='contact'] { width: 100%; }
+  .wtc-person[data-variant='coach-featured'] { display: flex; flex-direction: column; }
+  .wtc-person__name { font-size: var(--text-20); }
+  .wtc-person[data-variant^='coach'] .wtc-person__name { font-size: var(--text-22); }
+  .wtc-person__role { letter-spacing: 0.4px; line-height: 130%; }
+  .wtc-person[data-variant='contact'] .wtc-person__line > a:last-child { font-size: var(--text-17); }
+  .wtc-person__actions { flex-direction: column; }
+}
 
 /* ---------- Membership card ----------
    Name, price and join button on the left; what's included on the right. */
@@ -230,8 +250,8 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
   color: var(--wtc-blue-500);
 }
 .wtc-membership__intro { font-size: var(--text-22); font-weight: var(--weight-medium); color: var(--color-text); }
-.wtc-membership__price { font-size: var(--text-32); font-weight: var(--weight-semibold); color: var(--color-heading); }
-.wtc-membership__details { margin-top: var(--space-8); padding-left: var(--space-4); }
+.wtc-membership__price { display: flex; margin-bottom: var(--space-12); font-size: var(--text-32); font-weight: var(--weight-semibold); color: var(--color-heading); }
+.wtc-membership__details { margin-top: 14px; padding-left: var(--space-4); }
 .wtc-membership__details > :first-child { margin-top: 0; }
 .wtc-membership__soon { padding: var(--space-8) var(--space-20); background: var(--wtc-blue-900); color: var(--color-white); font-weight: var(--weight-medium); line-height: var(--leading-medium); }
 
@@ -240,7 +260,6 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
   .wtc-card-meta { font-size: var(--text-14); }
   .wtc-event-card__title { font-size: var(--text-32); }
   .wtc-event-card__actions { flex-direction: column; }
-  .wtc-person[data-variant^='coach'] .wtc-person__name { font-size: var(--text-26); }
   .wtc-membership__main { flex-wrap: wrap; }
   .wtc-membership__name { font-size: 42px; }
   .wtc-membership__intro { font-size: var(--text-20); }
@@ -250,7 +269,7 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
   .wtc-event-card .wtc-event-card__title { font-size: var(--text-32); letter-spacing: -1px; }
   .wtc-news-card__body { padding-inline: 8%; }
   .wtc-news-card__title, .wtc-card-summary { max-width: none; }
-  .wtc-membership__left { width: auto; min-width: 0; }
+  .wtc-membership__left { width: auto; min-width: auto; }
   .wtc-membership__name { font-size: 38px; }
 }
 @media (max-width: 479px) {
@@ -260,10 +279,10 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
   .wtc-event-card__countdown { font-size: var(--text-18); }
   .wtc-event-card:not([data-size='small']) .wtc-card-image img { height: auto; }
   .wtc-event-card .wtc-card-summary { font-size: var(--text-16); }
-  .wtc-person__name { font-size: var(--text-20); }
   .wtc-membership__main { padding-inline: var(--space-14); }
   .wtc-membership__name { font-size: var(--text-32); }
   .wtc-membership__intro { font-size: var(--text-18); line-height: 130%; }
+  .wtc-membership__details, .wtc-membership__soon { font-size: var(--text-16); }
 }
 
 
@@ -420,9 +439,27 @@ h4.wtc-event-card__title { letter-spacing: -1.2px; }
 
 /* ---------- Sponsor logo ----------
    A sponsor's logo on their own background colour, shrinking slightly on hover. */
-.wtc-sponsor { display: flex; align-items: center; justify-content: center; aspect-ratio: 3 / 2; padding: 12%; text-decoration: none; transition: background-color 0.3s; }
+.wtc-sponsor { display: flex; align-items: center; justify-content: center; text-decoration: none; }
+.wtc-sponsor[data-fill] { width: 100%; height: 100%; }
 .wtc-sponsor img { max-width: 100%; max-height: 100%; transition: transform 200ms ease; }
 .wtc-sponsor:hover img { transform: scale(0.95); }
+.wtc-sponsor[data-variant='banner'] { align-items: stretch; }
+.wtc-sponsor[data-variant='banner'] img { width: 15%; max-height: none; transition: none; }
+.wtc-sponsor[data-variant='banner']:hover img { transform: none; }
+@media (max-width: 991px) {
+  .wtc-sponsor { width: 100%; }
+  .wtc-sponsor[data-variant='logo'] img { max-width: 130px; max-height: 130px; }
+  .wtc-sponsor[data-variant='banner'] img { width: 30%; }
+}
+@media (max-width: 767px) {
+  .wtc-sponsor[data-fill] { width: auto; height: auto; }
+  .wtc-sponsor[data-variant='logo'] img { max-width: 120px; max-height: 120px; }
+  .wtc-sponsor[data-variant='banner'] img { width: 40%; }
+}
+@media (max-width: 479px) {
+  .wtc-sponsor[data-variant='logo'] img { max-width: 100%; max-height: 400px; }
+  .wtc-sponsor[data-variant='banner'] img { width: 60%; }
+}
 
 /* ---------- Header ----------
    White bar floating at the top: logo, menu with dropdowns, and a button at the end.

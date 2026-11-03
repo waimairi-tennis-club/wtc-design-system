@@ -5,6 +5,8 @@
 //   coach          photo filling the column, name and role (coach grids)
 //   coach-featured large photo, name, role, phone, email, bio (the slot) and an optional button
 //   <PersonCard variant="contact" name="Cassandra Hinton" role="Club manager" phone="021 0223 7650" email="admin@wtc.co.nz" />
+// To use a different image component (e.g. Astro's <Image>), pass it in the "image" slot.
+// Anything in the "before" slot sits above the photo, e.g. "For more information contact:".
 import Avatar from './Avatar.astro';
 import IconButton from './IconButton.astro';
 import Button from './Button.astro';
@@ -14,13 +16,16 @@ interface Props {
   variant: 'contact' | 'contact-light' | 'coach' | 'coach-featured';
   name: string;
   role?: string;
+  /** Colour of the role line: heading (dark blue), light (white) or muted (grey). Defaults to light on contact cards, heading on coaches. */
+  roleTone?: 'heading' | 'light' | 'muted';
   photo?: string;
   phone?: string;
   email?: string;
   button?: { href: string; text?: string };
   headingLevel?: 'h3' | 'h4' | 'h5' | 'div';
+  [attr: string]: unknown;
 }
-const { variant, name, role, photo, phone, email, button, headingLevel } = Astro.props;
+const { variant, name, role, roleTone = variant === 'contact' ? 'light' : 'heading', photo, phone, email, button, headingLevel, ...rest } = Astro.props;
 const isContact = variant.startsWith('contact');
 const Heading = headingLevel ?? (isContact ? 'div' : variant === 'coach' ? 'h5' : 'h3');
 const size = variant === 'coach' ? 'fill' : variant === 'coach-featured' ? 'xl' : 'sm';
@@ -28,17 +33,20 @@ const iconColour = variant === 'contact' ? 'white' : 'blue';
 const tel = phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined;
 const showContact = variant !== 'coach';
 const showRole = role && variant !== 'contact-light';
-const firstName = name.split(' ')[0];
+const LinesWrap = variant === 'coach-featured' ? 'div' : Fragment;
 ---
-<div class="wtc-person" data-variant={variant}>
-  <Avatar name={name} src={photo} size={size} decorative />
+<div class="wtc-person" data-variant={variant} {...rest}>
+  <slot name="before" />
+  <div class="wtc-person__photo" data-size={size}>
+    <slot name="image"><Avatar name={name} src={photo} size={size} decorative /></slot>
+  </div>
   <Heading class="wtc-person__name">{name}</Heading>
-  {showRole && <div class="wtc-person__role">{role}</div>}
-  {showContact && phone && (
-    <div class="wtc-person__line"><IconButton icon="phone" href={tel!} label={`Call ${firstName}`} color={iconColour} /><a href={tel}>{phone}</a></div>
-  )}
-  {showContact && email && (
-    <div class="wtc-person__line"><IconButton icon="email" href={`mailto:${email}`} label={`Email ${firstName}`} color={iconColour} /><a href={`mailto:${email}`}>{email}</a></div>
+  {showRole && <div class="wtc-person__role" data-tone={roleTone}>{role}</div>}
+  {showContact && (phone || email || variant === 'coach-featured') && (
+    <LinesWrap {...(variant === 'coach-featured' ? { class: 'wtc-person__lines' } : {})}>
+      {phone && <div class="wtc-person__line"><IconButton icon="phone" href={tel!} label={`Call ${name}`} color={iconColour} /><a href={tel}>{phone}</a></div>}
+      {email && <div class="wtc-person__line"><IconButton icon="email" href={`mailto:${email}`} label={`Email ${name}`} color={iconColour} /><a href={`mailto:${email}`}>{email}</a></div>}
+    </LinesWrap>
   )}
   {variant === 'coach-featured' && Astro.slots.has('default') && <div class="wtc-person__bio"><slot /></div>}
   {variant === 'coach-featured' && button && <div class="wtc-person__actions"><Button href={button.href}>{button.text ?? 'More info'}</Button></div>}

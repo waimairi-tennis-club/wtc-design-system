@@ -1,18 +1,23 @@
 ---
 // A sponsor's logo on their own background colour. Links to their website if there is one.
 //   <SponsorLogo logo="/davis-ogilvie.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />
+//   fill:    the block fills its grid cell (sponsor grids). Without it, it hugs the logo on wide screens.
+//   variant="banner": a full-width band with the logo in the middle (event pages: "made possible thanks to").
+// To use a different image component (e.g. Astro's <Image>), pass it in the "image" slot.
 import './components.css';
 
 interface Props {
-  logo: string;
+  logo?: string;
   alt: string;
   /** The sponsor's background colour. Default white. */
   background?: string;
   href?: string;
+  fill?: boolean;
+  variant?: 'logo' | 'banner';
 }
-const { logo, alt, background = 'white', href } = Astro.props;
+const { logo, alt, background = 'white', href, fill = false, variant = 'logo' } = Astro.props;
 const Tag = href ? 'a' : 'div';
 ---
-<Tag class="wtc-sponsor" style={`background-color: ${background}`} {...(href ? { href, target: '_blank', rel: 'noopener' } : {})}>
-  <img src={logo} alt={alt} loading="lazy" />
+<Tag class="wtc-sponsor" data-variant={variant} data-fill={fill || undefined} style={`background-color: ${background}`} {...(href ? { href, target: '_blank', rel: 'noopener' } : {})}>
+  <slot name="image">{logo && <img src={logo} alt={alt} loading="lazy" />}</slot>
 </Tag>

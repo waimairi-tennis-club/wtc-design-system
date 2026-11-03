@@ -247,14 +247,18 @@ const avatarSizes = [
 
   <section id="sponsor">
     <SectionHeading label="Components" title="Sponsor logo" />
-    <p class="note">A sponsor's logo on their own background colour, linking to their website. The logo shrinks a touch on hover.</p>
+    <p class="note">A sponsor's logo on their own background colour, linking to their website. The logo shrinks a touch on hover. Use <code>fill</code> in a grid so each block fills its cell, as on the Our sponsors page.</p>
     <div class="sponsors">
-      <SponsorLogo logo="/examples/sponsors/davis-ogilvie-logo.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />
-      <SponsorLogo logo="/examples/sponsors/christchurch-city-council-logo.svg" alt="Christchurch City Council" href="https://ccc.govt.nz" />
-      <SponsorLogo logo="/examples/sponsors/elmwood-dental-logo.svg" alt="Elmwood Dental" href="https://elmwooddental.co.nz" />
+      <SponsorLogo fill logo="/examples/sponsors/davis-ogilvie-logo.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />
+      <SponsorLogo fill logo="/examples/sponsors/christchurch-city-council-logo.svg" alt="Christchurch City Council" href="https://ccc.govt.nz" />
+      <SponsorLogo fill logo="/examples/sponsors/elmwood-dental-logo.svg" alt="Elmwood Dental" href="https://elmwooddental.co.nz" />
     </div>
+    <h4>Banner</h4>
+    <p class="note">The full-width band on an event page: "This event is made possible thanks to".</p>
+    <div class="demo flush"><SponsorLogo variant="banner" logo="/examples/sponsors/davis-ogilvie-logo.svg" alt="Davis Ogilvie" background="#191818" /></div>
     <h4>Use it</h4>
-    <pre><code>{`<SponsorLogo logo="/davis-ogilvie.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />`}</code></pre>
+    <pre><code>{`<SponsorLogo fill logo="/davis-ogilvie.svg" alt="Davis Ogilvie" background="#191818" href="https://do.co.nz" />
+<SponsorLogo variant="banner" logo="/davis-ogilvie.svg" alt="Davis Ogilvie" background="#191818" />`}</code></pre>
   </section>
 </Docs>
 
@@ -265,7 +269,8 @@ const avatarSizes = [
   .coach-feature { flex: 0 1 360px; }
   .coach-grid { flex: 1 1 360px; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-40); }
   .info-boxes { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-14); margin-bottom: var(--space-16); }
-  .sponsors { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-14); margin-bottom: var(--space-16); }
+  /* On blue, like the Our sponsors page, so white logo blocks show */
+  .sponsors { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-14); margin-bottom: var(--space-16); padding: var(--space-30); background: var(--wtc-blue-400); }
   .filter-list { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-20); }
   .filter-list > div { background: var(--color-white); padding: var(--space-8) var(--space-14); font-size: var(--text-15); }
   @media (max-width: 991px) {
