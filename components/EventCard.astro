@@ -5,6 +5,7 @@
 //              image="/club-champs.jpg" entry={{ href: 'https://…', text: 'Enter now' }} countdown="5 days left to enter" />
 // To use a different image component (e.g. Astro's <Image>), pass it in the "image" slot.
 // To control the buttons yourself, pass them in the "actions" slot.
+// The "when" and "countdown" slots take your own markup instead of the text props.
 import Button from './Button.astro';
 import './components.css';
 
@@ -12,7 +13,7 @@ interface Props {
   href: string;
   title: string;
   /** The date line, already written out, e.g. "Wed, 9 December 2026, 6:00 pm — 8:00 pm". */
-  when: string;
+  when?: string;
   summary?: string;
   image?: string;
   imageAlt?: string;
@@ -25,23 +26,28 @@ interface Props {
   /** Shows the MORE INFO button. Default true. */
   moreInfo?: boolean;
   headingLevel?: 'h2' | 'h3' | 'h4';
-  [attr: `data-${string}`]: string | undefined;
+  /** A shorter image, for past events and rows of four. */
+  small?: boolean;
+  [attr: string]: unknown;
 }
-const { href, title, when, summary, image, imageAlt = '', countdown, closed = false, entry, moreInfo = true, headingLevel = 'h4', ...rest } = Astro.props;
+const { href, title, when, summary, image, imageAlt = '', countdown, closed = false, entry, moreInfo = true, headingLevel = 'h4', small = false, ...rest } = Astro.props;
 const Heading = headingLevel;
 const hasImageSlot = Astro.slots.has('image');
+// A slot passed conditionally still "exists", so check it actually has something in it.
+const countdownSlot = Astro.slots.has('countdown') ? (await Astro.slots.render('countdown')).trim() : '';
+const hasCountdown = countdownSlot !== '' || (countdown && !closed);
 ---
-<article class="wtc-event-card" {...rest}>
+<article class="wtc-event-card" data-size={small ? 'small' : undefined} {...rest}>
   {(image || hasImageSlot) && (
     <a href={href} class="wtc-card-image" aria-label={title} tabindex="-1">
       <slot name="image">{image && <img src={image} alt={imageAlt} loading="lazy" />}</slot>
     </a>
   )}
   <div class="wtc-event-card__body">
-    <p class="wtc-card-meta">{when}</p>
+    {Astro.slots.has('when') ? <slot name="when" /> : when && <p class="wtc-card-meta">{when}</p>}
     <Heading class="wtc-event-card__title">{title}</Heading>
     {summary && <p class="wtc-card-summary">{summary}</p>}
-    {countdown && !closed && <div class="wtc-event-card__countdown">{countdown}</div>}
+    {hasCountdown && <div class="wtc-event-card__countdown">{countdownSlot ? <Fragment set:html={countdownSlot} /> : countdown}</div>}
     <div class="wtc-event-card__actions">
       <slot name="actions">
         {closed && <div class="wtc-notice">Entries are now closed</div>}
