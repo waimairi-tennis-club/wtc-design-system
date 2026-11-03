@@ -262,6 +262,7 @@
   line-height: var(--leading-small);
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-align: center;
   color: var(--color-info-text);
 }
 .wtc-subtitle::before { content: ''; width: 27px; height: 1px; background: currentColor; flex-shrink: 0; }
@@ -295,11 +296,23 @@
 
 /* ---------- Info box ----------
    The blue boxes on an event page: Location, Dates, Contact, Payment details. */
-.wtc-info-box { display: flex; flex-direction: column; align-items: flex-start; padding: var(--space-16); background: var(--wtc-blue-400); color: var(--color-light); font-family: var(--font-body); line-height: 140%; }
-.wtc-info-box__icon { padding: var(--space-14); margin-bottom: var(--space-12); background: var(--color-light); color: var(--wtc-blue-950); font-size: 24px; }
+.wtc-info-box { box-sizing: border-box; width: 100%; display: flex; flex-direction: column; align-items: flex-start; padding: var(--space-16); background: var(--wtc-blue-400); color: var(--color-light); font-family: var(--font-body); line-height: 140%; }
+.wtc-info-box__icon { padding: var(--space-14); margin-bottom: var(--space-12); background: var(--color-light); color: var(--wtc-blue-900); font-size: 24px; }
 .wtc-info-box__heading { margin: var(--space-8) 0 var(--space-12); font-family: var(--font-heading); font-size: var(--text-26); font-weight: var(--weight-medium); line-height: var(--leading-small); letter-spacing: -0.2px; color: var(--color-light); }
 .wtc-info-box a { color: var(--color-white); }
-.wtc-info-box > :last-child { margin-bottom: 0; }
+.wtc-info-box > p:last-child { margin-bottom: 0; }
+@media (max-width: 991px) {
+  .wtc-info-box__icon { margin-bottom: var(--space-4); }
+  .wtc-info-box__heading { margin: var(--space-12) 0 var(--space-8); font-size: var(--text-24); }
+}
+@media (max-width: 767px) {
+  .wtc-subtitle { letter-spacing: 0.5px; }
+  .wtc-info-box__heading { font-size: var(--text-22); }
+}
+@media (max-width: 479px) {
+  .wtc-subtitle { letter-spacing: 0.4px; }
+  .wtc-info-box__heading { font-size: var(--text-20); }
+}
 
 /* ---------- Page hero ----------
    The photo header at the top of a page, fading to dark blue at the bottom where the title sits. */

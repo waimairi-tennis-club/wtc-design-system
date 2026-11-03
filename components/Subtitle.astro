@@ -6,7 +6,9 @@ import './components.css';
 
 interface Props {
   tone?: 'dark' | 'light';
+  class?: string;
+  [attr: string]: unknown;
 }
-const { tone = 'dark' } = Astro.props;
+const { tone = 'dark', class: extra, ...rest } = Astro.props;
 ---
-<p class="wtc-subtitle" data-tone={tone}><slot /></p>
+<p class:list={['wtc-subtitle', extra]} data-tone={tone} {...rest}><slot /></p>
